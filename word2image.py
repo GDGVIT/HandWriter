@@ -4,7 +4,8 @@ import cv2
 import random
 import numpy as np
 
-counter = 1 #Used to decide which image of letter will be used. Goes from 1 to 5
+# Used to decide which image of letter will be used. Goes from 1 to 5
+counter = 1 
 
 parser = argparse.ArgumentParser(description='Output image for word')
 parser.add_argument('word', type=str, nargs=1)
@@ -13,6 +14,7 @@ args = parser.parse_args()
 with open('hashes.json') as f:
     hashes = json.load(f)
 
+# JSON file contains dictionary where key is in format A3.jpg and value is image array
 word = args.word[0]
 letter = word[0]
 key = letter + str(counter) + '.jpg'

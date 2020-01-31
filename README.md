@@ -19,6 +19,10 @@ This project is *work in progress*
 * Pre-requisites:
 	-  python >= 3.0
 	-  dependencies from requirements.txt
+<br>
+
+The data can be downloaded from [ here ] (https://drive.google.com/file/d/1uonG1KNWozJ41VqMxCVsnczi-HjSB3l7/view?usp=sharing)
+Copy the file **hashes.json** to install directory. 
 
 <br>
 
