@@ -22,6 +22,7 @@ This project is *work in progress*
 <br>
 
 The data can be downloaded from [ here ](https://drive.google.com/file/d/1uonG1KNWozJ41VqMxCVsnczi-HjSB3l7/view?usp=sharing)
+<br>
 Copy the file **hashes.json** to install directory. 
 
 <br>
