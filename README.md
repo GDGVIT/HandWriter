@@ -13,6 +13,9 @@ This project is *work in progress*
 
 <br>
 
+## Functionalities
+- [ ] Convert a text document (.docx file) into a PDF file with the text content handwritten
+- [ ] Feed your own handwriting to the application to generate PDF outputs in your handwriting
 
 ## Instructions to run
 
