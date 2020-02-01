@@ -13,6 +13,9 @@ This project is *work in progress*
 
 <br>
 
+## Functionalities
+- [ ] Convert a text document (.docx file) into a PDF file with the text content handwritten
+- [ ] Feed your own handwriting to the application to generate PDF outputs in your handwriting
 
 ## Instructions to run
 
@@ -22,6 +25,7 @@ This project is *work in progress*
 <br>
 
 The data can be downloaded from [ here ](https://drive.google.com/file/d/1uonG1KNWozJ41VqMxCVsnczi-HjSB3l7/view?usp=sharing)
+<br>
 Copy the file **hashes.json** to install directory. 
 
 <br>
