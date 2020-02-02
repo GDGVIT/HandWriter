@@ -24,7 +24,8 @@ This project is *work in progress*
 	-  dependencies from requirements.txt
 <br>
 
-The data can be downloaded from [ here ](https://drive.google.com/file/d/1uonG1KNWozJ41VqMxCVsnczi-HjSB3l7/view?usp=sharing)
+The data can be downloaded from [ here ](https://drive.google.com/file/d/1uonG1KNWozJ41VqMxCVsnczi-HjSB3l7/view?usp=sharing) <br>
+The original dataset can be downloaded from [ here ](https://drive.google.com/file/d/10pFgeiL4FOrIaqp-r2_d6kM62g4X8zYf/view?usp=sharing), but it is password protected. Request access from [ SaurusXI ](https://github.com/SaurusXI/)
 <br>
 Copy the file **hashes.json** to install directory. 
 
