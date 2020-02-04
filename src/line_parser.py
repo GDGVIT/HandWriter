@@ -67,6 +67,11 @@ class LineParser:
         finalImage = np.array([[]], dtype = np.uint8)
         starting = True
 
+        # 2 characters on left edge are used up for blankspaces
+        if MAX_CHARS > 2:
+            finalImage = self.parse_line('  ')
+            MAX_CHARS -= 2
+
         # line image is generated word by word
         for word in wordlist:
             partialLength += len(word) + 2 # in every iteration one word and two spaces are added
@@ -75,14 +80,12 @@ class LineParser:
             if partialLength > MAX_CHARS:
                 charsCovered -= (len(word) + 1)
                 partialLength -= (len(word) + 2)
-                leftover = line[charsCovered:] + '  '
+                leftover = line[charsCovered:] + ' '
                 break
-            if starting:
-                finalImage = self.parse_line(word)
-            else:
-                finalImage = np.hstack((finalImage, self.parse_line(word)))
             
+            finalImage = np.hstack((finalImage, self.parse_line(word)))
             finalImage = np.hstack((finalImage, self.parse_line('  ')))
+
             starting = False
         
         # Add spaces to the end of line

@@ -1,4 +1,4 @@
-- [ ] Add firefox send link for hashes
+- [X] Added password protected link to dataset
 - [ ] Write documentation (describe usage) + wiki (describe structure)
 - [ ] Bug fixes
 - [ ] Multi-thread application to improve performance

@@ -20,7 +20,7 @@ class PageParser(LineParser):
 
         # In every iteration, generate a line and wrap the leftover text to next line
         for para in document.paragraphs:
-            text = leftover + str(para.text)
+            text = leftover + para.text    
             image, leftover = self.parse_line_constrained(text, self.CHARS_PER_LINE)
             lines.append(image)
 
@@ -79,10 +79,10 @@ class PageParser(LineParser):
         starting = True
         for i in range(0, remainderLines):
             if starting:
-                finalImages[pageIndex] = lines[totalPages + i]
+                finalImages[pageIndex] = lines[totalPages*LINES_PER_PAGE + i]
                 starting = False
             else:
-                finalImages[pageIndex] = np.vstack((finalImages[pageIndex], lines[totalPages + i]))
+                finalImages[pageIndex] = np.vstack((finalImages[pageIndex], lines[totalPages*LINES_PER_PAGE + i]))
             
 
         # Print blanks at end of incomplete page
