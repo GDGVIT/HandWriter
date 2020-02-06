@@ -24,7 +24,32 @@ This project is *work in progress*
 	-  dependencies from requirements.txt
 <br>
 
-The data can be downloaded from [ here ](https://drive.google.com/file/d/1uonG1KNWozJ41VqMxCVsnczi-HjSB3l7/view?usp=sharing). Copy the file **hashes.json** to install directory. 
+### Directions to install
+First, clone this repository onto your system. <br>
+Then, create a virtual environment and install the packages from requirements.txt: <br>
+If virtualenv isn't installed on your system, install virtualenv:
+```bash
+pip install virtualenv --user
+```
+Navigate to this repository, create a virtual environment and activate it:
+```bash
+cd path/to/folder
+virtualenv env
+source env/bin/activate
+```
+Install the python dependencies from requirements.txt:
+```bash
+pip install -r requirements.txt
+```
+Finally, download the data file from [ here ](https://drive.google.com/file/d/1uonG1KNWozJ41VqMxCVsnczi-HjSB3l7/view?usp=sharing)<br> 
+Copy **hashes.pickle** to install directory. <br>
+
+### Directions to run
+Presently, the application has a CLI that takes path to document and output PDF path as arguments. For instance,
+```bash
+python src/document_parser.py /path/to/docx /path/to/pdf
+```
+<br><br>
 The original dataset can be downloaded from [ here ](https://drive.google.com/file/d/10pFgeiL4FOrIaqp-r2_d6kM62g4X8zYf/view?usp=sharing), but it is password protected. Request access from [ SaurusXI ](https://github.com/SaurusXI/)
 <br>
 

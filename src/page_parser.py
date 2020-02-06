@@ -1,10 +1,8 @@
 import argparse
-import json
 from docx import Document
 import cv2
 import numpy as np
 from line_parser import LineParser
-from decorator import timeit
 import re
 
 class PageParser(LineParser):

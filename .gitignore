@@ -12,3 +12,6 @@ out.pdf
 buglist.md
 out1.pdf
 src/decorator.py
+.vscode
+env/
+.gitignore

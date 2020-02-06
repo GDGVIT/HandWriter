@@ -1,5 +1,4 @@
 import argparse
-import json
 from docx import Document
 from page_parser import PageParser
 from PIL import Image
