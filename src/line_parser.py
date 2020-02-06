@@ -4,24 +4,41 @@ import cv2
 import random
 import numpy as np
 import re
+from decorator import timeit
+from numba import njit
+from numba import types
 
+
+@njit(types.boolean(types.string))
+def check_inv(letter):
+    if letter == '‘' or letter == '’':
+        return True
+    else:
+        return False
+
+@njit(types.boolean(types.string))
+def check_dinv(letter):
+    if letter == '“' or letter == '”':
+        return True
+    else:
+        return False
 
 class LineParser:
     def __init__(self, hashes):
         self.hashes = hashes
 
-    # Generates and image of a line of text
+    # Generates image of a line of text
     def parse_line(self, line):
         
         assert(len(line) > 0)
         
-        counter = 1
+        counter = random.randrange(1, 6, 1)
 
         # initialze finalImage to the image of first word before appending other words
         letter = line[0]
-        if check_inv(letter):
+        if check_inv(letter) == True:
             letter = 'inv'
-        elif check_dinv(letter):
+        elif check_dinv(letter) == True:
             letter = 'dinv'
 
         key = letter + str(counter) + '.jpg'
@@ -29,7 +46,7 @@ class LineParser:
         if letter == ' ':
             letter = 'whitespace'
             key = letter + '.jpg'
-        finalImage = np.array(self.hashes[key], dtype = np.uint8)
+        finalImage = self.hashes[key]
 
         for i in range(1, len(line)):
             # In every iteration of counter is a random number between 1..5
@@ -38,9 +55,9 @@ class LineParser:
             
             # JSON file contains dictionary where key is like A3.jpg and value is image array
             # Keys are accordingly generated
-            if check_inv(letter):
+            if check_inv(letter) == True:
                 letter = 'inv'
-            elif check_dinv(letter):
+            elif check_dinv(letter) == True:
                 letter = 'dinv'
             
             key = letter + str(counter) + '.jpg'
@@ -48,14 +65,14 @@ class LineParser:
             if letter == ' ':
                 letter = 'whitespace'
                 key = letter + '.jpg'
-            finalImage = np.hstack((finalImage, np.array(self.hashes[key], dtype = np.uint8)))
+            finalImage = np.hstack((finalImage, self.hashes[key]))
 
         return finalImage      
 
     # Generates image of a line of text where output image length is fixed
-    # Can be thought of as a wrapper around parse_line
-    def parse_line_constrained(self, line, MAX_CHARS): 
-        
+    # Invokes parse_line with additional logic wrapped around it
+    def parse_line_constrained(self, line, MAX_CHARS, para_end_sentinel = '|'): 
+
         assert(MAX_CHARS > 0)
         
         totalChars = len(line)
@@ -64,16 +81,21 @@ class LineParser:
 
         partialLength = 0
         charsCovered = 0
-        finalImage = np.array([[]], dtype = np.uint8)
-        starting = True
+        finalImage = np.ones((198, 3834, 3), dtype = np.uint8)
 
-        # 2 characters on left edge are used up for blankspaces
+        
+        # 2 characters on left edge are used up for blankspaces - left margin
         if MAX_CHARS > 2:
             finalImage = self.parse_line('  ')
-            MAX_CHARS -= 2
-
+            partialLength += 2
         # line image is generated word by word
         for word in wordlist:
+
+            if word == para_end_sentinel:
+                charsCovered += len(para_end_sentinel) + 1
+                leftover = line[charsCovered:] + ' '
+                break
+
             partialLength += len(word) + 2 # in every iteration one word and two spaces are added
             charsCovered += len(word) + 1 # in every iteration one word and a space are covered from text line
             
@@ -83,16 +105,11 @@ class LineParser:
                 leftover = line[charsCovered:] + ' '
                 break
             
-            finalImage = np.hstack((finalImage, self.parse_line(word)))
-            finalImage = np.hstack((finalImage, self.parse_line('  ')))
+            finalImage = np.hstack((finalImage, self.parse_line(word + '  ')))
 
-            starting = False
-        
         # Add spaces to the end of line
         n_spaces = MAX_CHARS - partialLength
-        if starting:
-            finalImage = self.parse_line(' ')
-            n_spaces -= 1
+        
         spaces = ' '*(n_spaces)
         if(len(spaces) > 0):
             finalImage = np.hstack((finalImage, self.parse_line(spaces)))
@@ -104,18 +121,6 @@ class LineParser:
         cv2.imshow(window_name, image)
         cv2.waitKey()
         cv2.destroyWindow(window_name)
-
-def check_inv(letter):
-    if ord(letter) == 8216 or ord(letter) == 8217:
-        return True
-    else:
-        return False
-
-def check_dinv(letter):
-    if ord(letter) == 8220 or ord(letter) == 8221:
-        return True
-    else:
-        return False
 
 def main():
     # Used to decide which image of letter will be used. Goes from 1 to 5

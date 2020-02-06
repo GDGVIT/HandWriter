@@ -4,7 +4,8 @@ from docx import Document
 import cv2
 import numpy as np
 from line_parser import LineParser
-
+from decorator import timeit
+import re
 
 class PageParser(LineParser):
     def __init__(self, hashes, CHARS_PER_LINE):
@@ -20,7 +21,9 @@ class PageParser(LineParser):
 
         # In every iteration, generate a line and wrap the leftover text to next line
         for para in document.paragraphs:
-            text = leftover + para.text    
+            text = re.sub('[\t\n\r]', '', para.text)
+            text = re.sub('\s+', ' ', text)
+            text = leftover + text + ' | '
             image, leftover = self.parse_line_constrained(text, self.CHARS_PER_LINE)
             lines.append(image)
 
@@ -29,40 +32,42 @@ class PageParser(LineParser):
             text = leftover
             image, leftover = self.parse_line_constrained(text, self.CHARS_PER_LINE)
             lines.append(image)
-
+        
         if len(lines) == 0:
             print('Empty document!')
             return lines
 
-        page = lines[0]
-        for i in range(1, len(lines)):
-            page = np.vstack((page, lines[i]))
         if show:
-            this.show(page)
+            page = lines[0]
+            for i in range(1, len(lines)):
+                page = np.vstack((page, lines[i]))
+            self.show('window', page)
         return lines
 
     # Parse page - add page breaks when max no of lines in page is exceeded
     # fill incomplete page with lines of whitespaces
     # Uses parse_page(), returns a list of images of each page
+    
     def parse_pages_constrained(self, document, LINES_PER_PAGE, show = False):
         lines = self.parse_page(document, show = False)
         totalLines = len(lines)
         totalPages = (totalLines // LINES_PER_PAGE)
-
         # Work-around to https://stackoverflow.com/questions/19951816/python-changes-to-my-copy-variable-affect-the-original-variable
-        # Instead of appending to a list of final images with temporary variable
+        # Instead of appending temporary variable to a list of final images
         # Initialize list to required size and modify value at each index 
-        finalImages = [[[i]] for i in range(0, totalPages + 1)]
+        finalImages = [[[i]] for i in range(0, totalPages)]
         
         remainderLines = totalLines % LINES_PER_PAGE
-        blankLines = LINES_PER_PAGE - (remainderLines)
+        blankLines = (LINES_PER_PAGE - (remainderLines)) % LINES_PER_PAGE
+
+        if remainderLines != 0:
+            finalImages.append([[0]])
 
         # Compute blank lines
         blanks = []
         blankline = self.parse_line(' ' * self.CHARS_PER_LINE)
         for i in range(0, blankLines):
             blanks.append(blankline)
-        
         # Print all complete pages
         pageIndex = 0
         for i in range(0, totalPages):
@@ -83,7 +88,6 @@ class PageParser(LineParser):
                 starting = False
             else:
                 finalImages[pageIndex] = np.vstack((finalImages[pageIndex], lines[totalPages*LINES_PER_PAGE + i]))
-            
 
         # Print blanks at end of incomplete page
         for blank in blanks:
@@ -93,7 +97,6 @@ class PageParser(LineParser):
         if show:
             for finalImage in finalImages:
                 self.show('window', finalImage)
-        
         return finalImages
 
     # Generates page from a list of lines
