@@ -26,18 +26,19 @@ class DocumentParser(PageParser):
         firstPage = Image.fromarray(pageImages[0].astype('uint8'), 'RGB')
         firstPage.save(destination_path, "PDF", save_all = True, append_images = allImages, resolution = 100.0)
 
-def main():
-    document = Document('../test.docx')
+def main(args):
+    document = Document(args.document_path[0])
     CHARS_PER_LINE = 54
     LINES_PER_PAGE = 30
     with open('../hashes.pickle', 'rb') as f:
         hashes = joblib.load(f)
     document_parser = DocumentParser(hashes, CHARS_PER_LINE, LINES_PER_PAGE)
-    document_parser.parse_document(document, '../out.pdf')
+    document_parser.parse_document(document, args.out_path[0])
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Output pages for docx document')
-    parser.add_argument('document_path', type=str, nargs=1)
+    parser.add_argument('document_path', type=str, nargs = 1)
+    parser.add_argument('out_path', type = str, nargs = 1)
     args = parser.parse_args()
 
-    main()
+    main(args)
