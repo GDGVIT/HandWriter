@@ -7,7 +7,7 @@ import re
 from decorator import timeit
 from numba import njit
 from numba import types
-
+from math import ceil
 
 @njit(types.boolean(types.string))
 def check_inv(letter):
@@ -71,7 +71,7 @@ class LineParser:
 
     # Generates image of a line of text where output image length is fixed
     # Invokes parse_line with additional logic wrapped around it
-    def parse_line_constrained(self, line, MAX_CHARS, para_end_sentinel = '|'): 
+    def parse_line_constrained(self, line, keys_alignment_dict, MAX_CHARS, alignment_carry, para_end_sentinel = '|'): 
 
         assert(MAX_CHARS > 0)
         
@@ -81,7 +81,8 @@ class LineParser:
 
         partialLength = 0
         charsCovered = 0
-        finalImage = np.ones((198, 3834, 3), dtype = np.uint8)
+        alignment = alignment_carry
+        finalImage = np.array([[[]]], dtype = np.uint8)
 
         
         # 2 characters on left edge are used up for blankspaces - left margin
@@ -96,6 +97,11 @@ class LineParser:
                 leftover = line[charsCovered:] + ' '
                 break
 
+            if word in keys_alignment_dict:
+                alignment = keys_alignment_dict[word]
+                charsCovered += len(word) + 2
+                continue
+
             partialLength += len(word) + 2 # in every iteration one word and two spaces are added
             charsCovered += len(word) + 1 # in every iteration one word and a space are covered from text line
             
@@ -107,14 +113,31 @@ class LineParser:
             
             finalImage = np.hstack((finalImage, self.parse_line(word + '  ')))
 
-        # Add spaces to the end of line
+        # Add spaces for remaining characters in line
         n_spaces = MAX_CHARS - partialLength
-        
-        spaces = ' '*(n_spaces)
-        if(len(spaces) > 0):
-            finalImage = np.hstack((finalImage, self.parse_line(spaces)))
+
+        if n_spaces > 0:
+            # Left aligned or justified text
+            if alignment == 3 or alignment == None:
+                spaces = ' '*(n_spaces)
+                finalImage = np.hstack((finalImage, self.parse_line(spaces)))
+
+            # Right aligned text
+            elif alignment == 2:
+                spaces = ' '*(n_spaces)
+                finalImage = np.hstack((self.parse_line(spaces), finalImage))
+
+            #Center aligned text
+            elif alignment == 1:
+                l_spaces = ' '*(n_spaces // 2)
+                r_spaces = ' '*ceil(n_spaces / 2)
+                if len(l_spaces) > 0:
+                    finalImage = np.hstack((self.parse_line(l_spaces), finalImage))
+                finalImage = np.hstack((finalImage, self.parse_line(r_spaces)))
+
+        next_line_alignment = alignment
         # leftover is the text that did not fit in line
-        return finalImage, leftover 
+        return finalImage, leftover, next_line_alignment 
 
 
     def show(self, window_name, image):

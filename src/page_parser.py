@@ -11,6 +11,9 @@ class PageParser(LineParser):
     def __init__(self, hashes, CHARS_PER_LINE):
         LineParser.__init__(self, hashes)
         self.CHARS_PER_LINE = CHARS_PER_LINE
+
+        self.keys_alignment = {'`' : None, '``' : 1, '```' : 2, '````' : 3}
+        self.alignment_keys = {None : ' ` ', 0 : ' ` ', 1 : ' `` ', 2 : ' ``` ' , 3 : ' ```` '}
     
     # Returns a list of lines that belong to the same page
     def parse_page(self, document, show = False):
@@ -18,19 +21,21 @@ class PageParser(LineParser):
         leftover = ''
         # list that stores image of each line
         lines = []
+        alignment_carry = None
 
         # In every iteration, generate a line and wrap the leftover text to next line
         for para in document.paragraphs:
             text = re.sub('[\t\n\r]', '', para.text)
             text = re.sub('\s+', ' ', text)
-            text = leftover + text + ' | '
-            image, leftover = self.parse_line_constrained(text, self.CHARS_PER_LINE)
+            para_alignment = para.paragraph_format.alignment
+            text = leftover + self.alignment_keys[para_alignment] + text + ' | '
+            image, leftover, alignment_carry = self.parse_line_constrained(text, self.keys_alignment, self.CHARS_PER_LINE, alignment_carry)
             lines.append(image)
 
         # print all leftover text
         while leftover != '':
             text = leftover
-            image, leftover = self.parse_line_constrained(text, self.CHARS_PER_LINE)
+            image, leftover, alignment_carry = self.parse_line_constrained(text, self.keys_alignment, self.CHARS_PER_LINE, alignment_carry)
             lines.append(image)
         
         if len(lines) == 0:
@@ -116,14 +121,15 @@ class PageParser(LineParser):
 def main():
     line_parser = line_parser.LineParser(hashes)
     leftover = ''   
-    lines = []      
+    lines = []
+    alignment_carry = None      
     for para in document.paragraphs:
         text = leftover + para.text
-        image, leftover = line_parser.parse_line_constrained(text, CHARS_PER_LINE)
+        image, leftover, alignment_carry = line_parser.parse_line_constrained(text, self.keys_alignment, CHARS_PER_LINE, alignment_carry)
         lines.append(image)
     while leftover != '':
         text = leftover
-        image, leftover = line_parser.parse_line_constrained(text, CHARS_PER_LINE)
+        image, leftover, alignment_carry = line_parser.parse_line_constrained(text, self.keys_alignment, CHARS_PER_LINE, alignment_carry)
         lines.append(image)
     page = lines[0]
     for i in range(1, len(lines)):
