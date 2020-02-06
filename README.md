@@ -41,7 +41,7 @@ Install the python dependencies from requirements.txt:
 ```bash
 pip install -r requirements.txt
 ```
-Finally, download the data file from [ here ](https://drive.google.com/file/d/1uonG1KNWozJ41VqMxCVsnczi-HjSB3l7/view?usp=sharing)<br> 
+Finally, download the data file from [ here ](https://drive.google.com/open?id=1yaS8zwzgr8BtzUcgWfP_PqG1JljnTsbe)<br> 
 Copy **hashes.pickle** to install directory. <br>
 
 ### Directions to run
@@ -50,7 +50,7 @@ Presently, the application has a CLI that takes path to document and output PDF 
 python src/document_parser.py /path/to/docx /path/to/pdf
 ```
 <br><br>
-The original dataset can be downloaded from [ here ](https://drive.google.com/file/d/10pFgeiL4FOrIaqp-r2_d6kM62g4X8zYf/view?usp=sharing), but it is password protected. Request access from [ SaurusXI ](https://github.com/SaurusXI/)
+The original dataset can be downloaded from [ here ](https://drive.google.com/file/d/10pFgeiL4FOrIaqp-r2_d6kM62g4X8zYf/view?usp=sharing)- but it is password protected. Request access from [ SaurusXI ](https://github.com/SaurusXI/)
 <br>
 
 
