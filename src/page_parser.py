@@ -11,7 +11,7 @@ class PageParser(LineParser):
         self.CHARS_PER_LINE = CHARS_PER_LINE
 
         self.keys_alignment = {'`' : None, '``' : 1, '```' : 2, '````' : 3}
-        self.alignment_keys = {None : ' ` ', 0 : ' ` ', 1 : ' `` ', 2 : ' ``` ' , 3 : ' ```` '}
+        self.alignment_keys = {None : '` ', 0 : '` ', 1 : '`` ', 2 : '``` ' , 3 : '```` '}
     
     # Returns a list of lines that belong to the same page
     def parse_page(self, document, show = False):
@@ -23,8 +23,9 @@ class PageParser(LineParser):
 
         # In every iteration, generate a line and wrap the leftover text to next line
         for para in document.paragraphs:
-            text = re.sub('[\t\n\r]', '', para.text)
+            text = re.sub('[\n\r]', '', para.text)
             text = re.sub('\s+', ' ', text)
+            text = re.sub('\t', ' ', text)
             para_alignment = para.paragraph_format.alignment
             text = leftover + self.alignment_keys[para_alignment] + text + ' | '
             image, leftover, alignment_carry = self.parse_line_constrained(text, self.keys_alignment, self.CHARS_PER_LINE, alignment_carry)
@@ -53,6 +54,8 @@ class PageParser(LineParser):
     
     def parse_pages_constrained(self, document, LINES_PER_PAGE, show = False):
         lines = self.parse_page(document, show = False)
+        line_shape = lines[0].shape
+
         totalLines = len(lines)
         totalPages = (totalLines // LINES_PER_PAGE)
         # Work-around to https://stackoverflow.com/questions/19951816/python-changes-to-my-copy-variable-affect-the-original-variable
@@ -67,10 +70,8 @@ class PageParser(LineParser):
             finalImages.append([[0]])
 
         # Compute blank lines
-        blanks = []
-        blankline = self.parse_line(' ' * self.CHARS_PER_LINE)
-        for i in range(0, blankLines):
-            blanks.append(blankline)
+        blanks = np.full((blankLines * line_shape[0], line_shape[1], line_shape[2]), 255, dtype = np.uint8)
+
         # Print all complete pages
         pageIndex = 0
         for i in range(0, totalPages):
@@ -93,8 +94,17 @@ class PageParser(LineParser):
                 finalImages[pageIndex] = np.vstack((finalImages[pageIndex], lines[totalPages*LINES_PER_PAGE + i]))
 
         # Print blanks at end of incomplete page
-        for blank in blanks:
-            finalImages[pageIndex] = np.vstack((finalImages[pageIndex], blank))
+    
+
+        if len(blanks) > 0:
+            finalImages[pageIndex] = np.vstack((finalImages[pageIndex], blanks))
+
+        # Add top and bottom margin
+        vertical_margin = np.full((line_shape[0], line_shape[1], line_shape[2]), 255, dtype = np.uint8)
+        
+        for index in range(0, len(finalImages)):
+            finalImages[index] = np.vstack((finalImages[index], vertical_margin))   # Add margin on bottom of page
+            finalImages[index] = np.vstack((vertical_margin, finalImages[index]))   # Add margin on top of page
 
         # show all pages
         if show:

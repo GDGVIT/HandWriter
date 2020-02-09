@@ -92,12 +92,12 @@ class LineParser:
 
             if word == para_end_sentinel:
                 charsCovered += len(para_end_sentinel) + 1
-                leftover = line[charsCovered:] + ' '
+                leftover = line[charsCovered:]
                 break
 
             if word in keys_alignment_dict:
                 alignment = keys_alignment_dict[word]
-                charsCovered += len(word) + 2
+                charsCovered += len(word) + 1
                 continue
 
             partialLength += len(word) + 2 # in every iteration one word and two spaces are added
@@ -106,7 +106,7 @@ class LineParser:
             if partialLength > MAX_CHARS:
                 charsCovered -= (len(word) + 1)
                 partialLength -= (len(word) + 2)
-                leftover = line[charsCovered:] + ' '
+                leftover = line[charsCovered:]
                 break
             
             finalImage = np.hstack((finalImage, self.parse_line(word + '  ')))
@@ -135,6 +135,8 @@ class LineParser:
 
         next_line_alignment = alignment
         # leftover is the text that did not fit in line
+        print(repr(leftover))
+        print('\n')
         return finalImage, leftover, next_line_alignment 
 
 
