@@ -14,8 +14,6 @@ class LineParser:
     # Generates image of a line of text
     def parse_line(self, line):
         
-        assert(len(line) > 0)
-        
         counter = random.randrange(1, 6, 1)
 
         # initialze finalImage to the image of first word before appending other words

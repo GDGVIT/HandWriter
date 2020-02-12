@@ -121,6 +121,7 @@ class Ui_MainWindow(QtCore.QObject):
         self.centralwidget = QtWidgets.QWidget(self.MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.MainWindow.setCentralWidget(self.centralwidget)
+        self.MainWindow.setWindowIcon(QtGui.QIcon(os.path.join('assets', 'handwriter_logo_small.png')))
 
         # Animated DSC Logo
 
@@ -293,9 +294,10 @@ class ParserThread(QtCore.QThread):
     key_exception = QtCore.pyqtSignal(str)
     
     def run(self):
+        HASHES_PATH = 'hashes.pickle'
         CHARS_PER_LINE = 54
         LINES_PER_PAGE = 30
-        with open('hashes.pickle', 'rb') as f:
+        with open(HASHES_PATH, 'rb') as f:
             hashes = joblib.load(f)
         document_parser = DocumentParser(hashes, CHARS_PER_LINE, LINES_PER_PAGE)
         pdf_path = re.sub('docx', 'pdf', self.doc_path)

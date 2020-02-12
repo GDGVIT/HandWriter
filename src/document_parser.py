@@ -26,9 +26,10 @@ class DocumentParser(PageParser):
 
 def main(args):
     document = Document(args.document_path[0])
+    HASHES_PATH = '../hashes.pickle'
     CHARS_PER_LINE = 54
     LINES_PER_PAGE = 30
-    with open('../hashes.pickle', 'rb') as f:
+    with open(HASHES_PATH, 'rb') as f:
         hashes = joblib.load(f)
     document_parser = DocumentParser(hashes, CHARS_PER_LINE, LINES_PER_PAGE)
     document_parser.parse_document(document, args.out_path[0])
