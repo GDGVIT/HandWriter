@@ -125,33 +125,3 @@ class PageParser(LineParser):
 
 
 
-                
-def main():
-    line_parser = line_parser.LineParser(hashes)
-    leftover = ''   
-    lines = []
-    alignment_carry = None      
-    for para in document.paragraphs:
-        text = leftover + para.text
-        image, leftover, alignment_carry = line_parser.parse_line_constrained(text, self.keys_alignment, CHARS_PER_LINE, alignment_carry)
-        lines.append(image)
-    while leftover != '':
-        text = leftover
-        image, leftover, alignment_carry = line_parser.parse_line_constrained(text, self.keys_alignment, CHARS_PER_LINE, alignment_carry)
-        lines.append(image)
-    page = lines[0]
-    for i in range(1, len(lines)):
-        page = np.vstack((page, lines[i]))
-    line_parser.show('window', page)
-                
-            
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Output page for docx page')
-    parser.add_argument('document_path', type=str, nargs=1)
-    args = parser.parse_args()
-    CHARS_PER_LINE = 54
-    document = Document('test.docx')
-    with open('hashes.json') as f:
-        hashes = json.load(f)
-    main()

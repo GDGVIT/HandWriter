@@ -135,8 +135,6 @@ class LineParser:
 
         next_line_alignment = alignment
         # leftover is the text that did not fit in line
-        print(repr(leftover))
-        print('\n')
         return finalImage, leftover, next_line_alignment 
 
 
@@ -144,37 +142,3 @@ class LineParser:
         cv2.imshow(window_name, image)
         cv2.waitKey()
         cv2.destroyWindow(window_name)
-
-def main():
-    # Used to decide which image of letter will be used. Goes from 1 to 5
-    counter = 1 
-
-    with open('hashes.json') as f:
-        hashes = json.load(f)
-    # JSON file contains dictionary where key is like A3.jpg and value is image array
-    word = args.word[0]
-    letter = word[0]
-    if letter == ' ':
-        letter = 'whitespace'
-    key = letter + str(counter) + '.jpg'
-    finalImage = np.array(hashes[key], dtype = np.uint8)
-
-    for i in range(1, len(word)):
-        # In every iteration of counter is a random number between 1..5
-        counter = random.randrange(1, 6, 1)
-        letter = word[i]
-        key = letter + str(counter) + '.jpg'
-        if letter == ' ':
-            letter = 'whitespace'
-            key = letter + '.jpg'
-        finalImage = np.hstack((finalImage, np.array(hashes[key], dtype = np.uint8)))
-
-    show(args.word[0], finalImage)
-
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Output image for word')
-    parser.add_argument('word', type=str, nargs=1)
-    args = parser.parse_args()
-    main()

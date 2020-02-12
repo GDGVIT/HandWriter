@@ -1,7 +1,6 @@
 joblib==0.14.1
 llvmlite==0.31.0
 lxml==4.5.0
-mlpack==3.2.1
 numba==0.48.0
 numpy==1.18.1
 opencv-contrib-python==4.2.0.32

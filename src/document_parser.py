@@ -3,7 +3,6 @@ from docx import Document
 from page_parser import PageParser
 from PIL import Image
 import joblib
-from decorator import timeit
 
 
 class DocumentParser(PageParser):
@@ -24,7 +23,7 @@ class DocumentParser(PageParser):
             )
         firstPage = Image.fromarray(pageImages[0].astype('uint8'), 'RGB')
         firstPage.save(destination_path, "PDF", save_all = True, append_images = allImages, resolution = 100.0)
-@timeit
+
 def main(args):
     document = Document(args.document_path[0])
     CHARS_PER_LINE = 54
