@@ -1,6 +1,8 @@
 import sys
 import os
 import re
+import subprocess
+import platform
 
 sys.path.insert(1, os.path.join('.', 'src'))
 from document_parser import DocumentParser
@@ -18,37 +20,58 @@ class Ui_MainWindow(QtCore.QObject):
         ## Stylesheets
 
         # 'Select Document' button
-        self.stylesheet_select = """
+        self.stylesheet_new_select = """
         QPushButton {
             color: white; 
             background-color: #4086F6; 
             border: 0; 
-            border-radius: 7px;
+            border-radius: 25px;
         }
         QPushButton:pressed {
             color: white;
             background-color: #3A80F0;
             border: 0;
-            border-radius: 7px;
+            border-radius: 25px;
         }
         """
-
+        self.stylesheet_selected ="""
+        QPushButton {
+            color: #4086F6; 
+            background-color: #FFFFFF; 
+            border: 2px; 
+            border-color: #4086F6;
+            border-radius: 25px;
+            border-style: solid;
+        }
+        QPushButton:pressed {
+            color: white;
+            background-color: #3A80F0;
+            border: 2px;
+            border-radius: 25px;
+        }
+        """
         # 'Write' inactive
-        self.stylesheet_write_inactive = "opacity: 0.3; color: grey; background-color: #e7e7e7; border: 0; border-radius: 7px;"
+        self.stylesheet_write_inactive = """
+        opacity: 0.3; 
+        color: grey; 
+        background-color: #e7e7e7; 
+        border: 0; 
+        border-radius: 25px;
+        """
         
         # 'Write' active
         self.stylesheet_write_active = """
         QPushButton {
             color: white; 
-            background-color: #109D58; 
+            background-color: #4086F6; 
             border: 0; 
-            border-radius: 7px;
+            border-radius: 25px;
         }
         QPushButton:pressed {
             color: white;
-            background-color: #0A9852;
+            background-color: #3A80F0;
             border: 0;
-            border-radius: 7px;
+            border-radius: 25px;
         }
         """
 
@@ -103,9 +126,9 @@ class Ui_MainWindow(QtCore.QObject):
 
         self.logo_label = QtWidgets.QLabel(self.centralwidget)
         self.logo_label.resize(200, 80)
-        self.logo_label.move(300, 165)
+        self.logo_label.move(320, 45)
         # Custom class moviebox resizes QMovie to desired width (pixels):
-        self.logo_movie = MovieBox("assets/DSC_logo_animated.gif").resized_movie(200)
+        self.logo_movie = MovieBox("assets/DSC_logo_animated.gif").resized_movie(180)
         self.logo_movie.setSpeed(350)
         self.logo_movie.frameChanged.connect(self.check_stopping_frame)
         self.logo_label.setMovie(self.logo_movie)
@@ -114,30 +137,30 @@ class Ui_MainWindow(QtCore.QObject):
         # Application name logo
 
         app_logo = QtWidgets.QLabel(self.centralwidget)
-        app_logo.setPixmap(QtGui.QPixmap(os.path.join('assets', 'HR_UI.png')).scaled(300, 150, QtCore.Qt.KeepAspectRatio, transformMode = QtCore.Qt.SmoothTransformation))
-        app_logo.setFixedSize(300, 150)
+        app_logo.setPixmap(QtGui.QPixmap(os.path.join('assets', 'handwriter_logo.png')).scaled(540, 100, QtCore.Qt.KeepAspectRatio, transformMode = QtCore.Qt.SmoothTransformation))
+        app_logo.setFixedSize(540, 100)
         app_logo.setObjectName("app_logo")
-        app_logo.setGeometry(250, 225, 300, 150)
+        app_logo.setGeometry(185, 210, 300, 150)
 
         # Select Document Button
 
         self.btn_select_document = QtWidgets.QPushButton('Select Document', self.centralwidget)
-        self.btn_select_document.setStyleSheet(self.stylesheet_select)
+        self.btn_select_document.setStyleSheet(self.stylesheet_new_select)
         self.btn_select_document.setEnabled(True)
-        self.btn_select_document.setFixedSize(150, 50)
+        self.btn_select_document.setFixedSize(200, 50)
         self.btn_select_document.setFont(font_select)
         self.btn_select_document.setShortcut('Ctrl+O')
-        self.btn_select_document.setGeometry(235, 395, 150, 50)
+        self.btn_select_document.setGeometry(175, 445, 150, 50)
 
         # Write Button
         
         self.btn_write = QtWidgets.QPushButton('Write', self.centralwidget)
         self.btn_write.setEnabled(False)
-        self.btn_write.setFixedSize(150, 50)
+        self.btn_write.setFixedSize(200, 50)
         self.btn_write.setFont(self.font_asleep)
         self.btn_write.setStyleSheet(self.stylesheet_write_inactive)
         self.btn_write.setShortcut('Ctrl+E')
-        self.btn_write.setGeometry(415, 395, 150, 50)
+        self.btn_write.setGeometry(435, 445, 150, 50)
 
         # Progress Bar
 
@@ -158,15 +181,20 @@ class Ui_MainWindow(QtCore.QObject):
 
 
     def open_document(self):
-        self.doc_path = QtWidgets.QFileDialog.getOpenFileName(self.MainWindow, 'Open Document', filter = '*.docx')[0]
+        self.doc_path = QtWidgets.QFileDialog.getOpenFileName(self.MainWindow, 'Open Document', filter = '*.docx')
+        print(self.doc_path)
+        self.doc_path = self.doc_path[0]       
         if self.doc_path == '':
             self.sleep_btn_write()
+            self.unselect_btn_select()
             return
         try:
             self.document = Document(self.doc_path)
+            self.selected_btn_select()
         except PackageNotFoundError:
             self.sleep_btn_write()
             return
+        self.pdf_path = re.sub('docx', 'pdf', self.doc_path)
         self.wake_btn_write()
         
     # Parse document on a thread separate from main UI thread
@@ -180,7 +208,7 @@ class Ui_MainWindow(QtCore.QObject):
 
     def start_parsing(self):
         self.thread = ParserThread(self.doc_path, self.document)
-        self.thread.change_value.connect(self.stop_progressbar)
+        self.thread.change_value.connect(self.popup_success)
         self.thread.key_exception.connect(self.popup_keyerror)
         self.thread.start()        
         
@@ -194,9 +222,34 @@ class Ui_MainWindow(QtCore.QObject):
         self.progress.setStyleSheet(self.stylesheet_complete_progressbar)
         self.progress.setTextVisible(False)
         self.progress.setValue(1)
+        self.unselect_btn_select()
     
+    def popup_success(self):
+        self.stop_progressbar()
+        success_popup = QtWidgets.QMessageBox(self.centralwidget)
+        success_popup.setIcon(QtWidgets.QMessageBox.NoIcon)
+        success_popup.setWindowTitle('Success: File Written')
+        success_popup.setText('The file was successfully written to ' + self.pdf_path)
+        btn_open_folder = QtWidgets.QPushButton('Open Containing Folder')
+        btn_open_folder.clicked.connect(self.open_containing_folder)
+        success_popup.addButton(btn_open_folder, QtWidgets.QMessageBox.AcceptRole)
+        success_popup.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        success_popup.show()        
+    
+    def open_containing_folder(self):
+        if platform.system() == 'Windows':
+            pdf_path = re.search('^(.+)\\([^\\]+)$', self.pdf_path).groups()[0]
+            os.startfile(pdf_path)
+
+        elif platform.system() == 'Darwin':
+            pdf_path = re.search('^(.+)/([^/]+)$', self.pdf_path).groups()[0]
+            subprocess.Popen(['open', pdf_path])
+            
+        else:
+            pdf_path = re.search('^(.+)/([^/]+)$', self.pdf_path).groups()[0]
+            subprocess.Popen(['xdg-open', pdf_path])
+
     def popup_keyerror(self, foreign_char):
-        print(foreign_char)
         self.stop_progressbar()
         error_popup = QtWidgets.QMessageBox(self.centralwidget)
         error_popup.setIcon(QtWidgets.QMessageBox.Critical)
@@ -215,8 +268,18 @@ class Ui_MainWindow(QtCore.QObject):
         self.btn_write.setStyleSheet(self.stylesheet_write_inactive)
         self.btn_write.setFont(self.font_asleep)
 
+    def unselect_btn_select(self):
+        self.btn_select_document.setStyleSheet(self.stylesheet_new_select)
+        self.btn_select_document.setText("Select Document")
+
+    def selected_btn_select(self):
+        self.btn_select_document.setStyleSheet(self.stylesheet_selected)
+        document_name = re.search('[^/]*$', self.doc_path).group()
+        print(repr(document_name))
+        self.btn_select_document.setText(document_name)
+
     def check_stopping_frame(self):
-        if self.logo_movie.currentFrameNumber() == 110: # 110 - Frame where DSC logo completes
+        if self.logo_movie.currentFrameNumber() == 210: # 110 - Frame where DSC logo completes
             self.logo_movie.stop()
 
 # Thread class for executing application logic separate from main UI thread            
@@ -243,6 +306,7 @@ class ParserThread(QtCore.QThread):
             self.key_exception.emit(str(e)[1])
 
         self.change_value.emit()
+
 
 # Used to return a resized QMovie object
 class MovieBox():
