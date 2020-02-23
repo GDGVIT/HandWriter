@@ -111,17 +111,3 @@ class PageParser(LineParser):
             for finalImage in finalImages:
                 self.show('window', finalImage)
         return finalImages
-
-    # Generates page from a list of lines
-    def generate_page(line_list):
-        if len(line_list) > 0:
-            page = line_list[0]
-            for i in range(1, len(line_list)):
-                page = np.vstack((page, line_list[i]))
-            return page
-        else:
-            print('Empty image list!')
-            return [[]]
-
-
-

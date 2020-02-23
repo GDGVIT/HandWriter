@@ -73,7 +73,6 @@ class LineParser:
 
         assert(MAX_CHARS > 0)
         
-        totalChars = len(line)
         wordlist = line.split()
         leftover = ''
 
