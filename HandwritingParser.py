@@ -181,6 +181,7 @@ class Ui_MainWindow(QtCore.QObject):
     def start_parsing(self):
         self.thread = ParserThread(self.doc_path, self.document)
         self.thread.change_value.connect(self.stop_progressbar)
+        self.thread.key_exception.connect(self.popup_keyerror)
         self.thread.start()        
         
     def stop_progressbar(self):
@@ -194,7 +195,16 @@ class Ui_MainWindow(QtCore.QObject):
         self.progress.setTextVisible(False)
         self.progress.setValue(1)
     
-
+    def popup_keyerror(self, foreign_char):
+        print(foreign_char)
+        self.stop_progressbar()
+        error_popup = QtWidgets.QMessageBox(self.centralwidget)
+        error_popup.setIcon(QtWidgets.QMessageBox.Critical)
+        error_popup.setWindowTitle('Error: Unable to write character')
+        error_popup.setText('The character ' + foreign_char + ' has not been fed into this version of HandWriter. Raise an issue on the official GDGVIT repo')
+        error_popup.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        error_popup.show()
+        
     def wake_btn_write(self):
         self.btn_write.setEnabled(True)
         self.btn_write.setStyleSheet(self.stylesheet_write_active)
@@ -217,7 +227,8 @@ class ParserThread(QtCore.QThread):
         self.document = document
 
     change_value = QtCore.pyqtSignal()
-
+    key_exception = QtCore.pyqtSignal(str)
+    
     def run(self):
         CHARS_PER_LINE = 54
         LINES_PER_PAGE = 30
@@ -226,7 +237,11 @@ class ParserThread(QtCore.QThread):
         document_parser = DocumentParser(hashes, CHARS_PER_LINE, LINES_PER_PAGE)
         pdf_path = re.sub('docx', 'pdf', self.doc_path)
         
-        document_parser.parse_document(self.document, pdf_path)
+        try:
+            document_parser.parse_document(self.document, pdf_path)
+        except KeyError as e:
+            self.key_exception.emit(str(e)[1])
+
         self.change_value.emit()
 
 # Used to return a resized QMovie object
