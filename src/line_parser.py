@@ -3,23 +3,9 @@ import cv2
 import random
 import numpy as np
 import re
-from numba import njit
-from numba import types
+import check_letter
 from math import ceil
 
-@njit(types.boolean(types.string))
-def check_inv(letter):
-    if letter == '‘' or letter == '’':
-        return True
-    else:
-        return False
-
-@njit(types.boolean(types.string))
-def check_dinv(letter):
-    if letter == '“' or letter == '”':
-        return True
-    else:
-        return False
 
 class LineParser:
     def __init__(self, hashes):
@@ -34,10 +20,12 @@ class LineParser:
 
         # initialze finalImage to the image of first word before appending other words
         letter = line[0]
-        if check_inv(letter) == True:
+        if check_letter.check_inv(letter) == True:
             letter = 'inv'
-        elif check_dinv(letter) == True:
+        elif check_letter.check_dinv(letter) == True:
             letter = 'dinv'
+        elif check_letter.check_hyphen(letter):
+            letter = '-'
 
         key = letter + str(counter) + '.jpg'
         
@@ -45,18 +33,19 @@ class LineParser:
             letter = 'whitespace'
             key = letter + '.jpg'
         finalImage = self.hashes[key]
-
+        
         for i in range(1, len(line)):
             # In every iteration of counter is a random number between 1..5
             counter = random.randrange(1, 6, 1)
             letter = line[i]
-            
             # JSON file contains dictionary where key is like A3.jpg and value is image array
             # Keys are accordingly generated
-            if check_inv(letter) == True:
+            if check_letter.check_inv(letter) == True:
                 letter = 'inv'
-            elif check_dinv(letter) == True:
+            elif check_letter.check_dinv(letter) == True:
                 letter = 'dinv'
+            elif check_letter.check_hyphen(letter):
+                letter = '-'
             
             key = letter + str(counter) + '.jpg'
 
