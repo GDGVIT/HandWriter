@@ -1,7 +1,2 @@
-- [X] Added password protected link to dataset
-- [X] Improve performance
-- [X] Center and right alignment
-- [ ] Add top and bottom margin
 - [ ] Write documentation (describe usage) + wiki (describe structure)
-- [ ] Bug fixes
-- [ ] Garbage collection at appropriate points in app
+- [ ] Installers/Distribution environments for popular desktop platforms (windows, linux, mac)
