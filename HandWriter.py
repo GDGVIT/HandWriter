@@ -183,7 +183,6 @@ class Ui_MainWindow(QtCore.QObject):
 
     def open_document(self):
         self.doc_path = QtWidgets.QFileDialog.getOpenFileName(self.MainWindow, 'Open Document', filter = '*.docx')
-        print(self.doc_path)
         self.doc_path = self.doc_path[0]       
         if self.doc_path == '':
             self.sleep_btn_write()
@@ -276,7 +275,6 @@ class Ui_MainWindow(QtCore.QObject):
     def selected_btn_select(self):
         self.btn_select_document.setStyleSheet(self.stylesheet_selected)
         document_name = re.search('[^/]*$', self.doc_path).group()
-        print(repr(document_name))
         self.btn_select_document.setText(document_name)
 
     def check_stopping_frame(self):
@@ -324,7 +322,6 @@ class MovieBox():
         return self.movie
 
 if __name__ == "__main__":
-    import sys
     app = QtWidgets.QApplication(sys.argv)
     Styles = ['Breeze', 'Oxygen', 'QtCurve', 'Windows', 'Fusion']
     app.setStyle(Styles[4])
