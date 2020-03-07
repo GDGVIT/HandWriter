@@ -302,10 +302,10 @@ class ParserThread(QtCore.QThread):
         
         try:
             document_parser.parse_document(self.document, pdf_path)
+            self.change_value.emit()
         except KeyError as e:
             self.key_exception.emit(str(e)[1])
 
-        self.change_value.emit()
 
 
 # Used to return a resized QMovie object
