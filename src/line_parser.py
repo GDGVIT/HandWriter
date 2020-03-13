@@ -3,7 +3,6 @@ import cv2
 import random
 import numpy as np
 import re
-import check_letter
 from math import ceil
 
 
@@ -18,11 +17,11 @@ class LineParser:
 
         # initialze finalImage to the image of first word before appending other words
         letter = line[0]
-        if check_letter.check_inv(letter) == True:
+        if check_inv(letter) == True:
             letter = 'inv'
-        elif check_letter.check_dinv(letter) == True:
+        elif check_dinv(letter) == True:
             letter = 'dinv'
-        elif check_letter.check_hyphen(letter):
+        elif check_hyphen(letter):
             letter = '-'
 
         key = letter + str(counter) + '.jpg'
@@ -38,11 +37,11 @@ class LineParser:
             letter = line[i]
             # JSON file contains dictionary where key is like A3.jpg and value is image array
             # Keys are accordingly generated
-            if check_letter.check_inv(letter) == True:
+            if check_inv(letter) == True:
                 letter = 'inv'
-            elif check_letter.check_dinv(letter) == True:
+            elif check_dinv(letter) == True:
                 letter = 'dinv'
-            elif check_letter.check_hyphen(letter):
+            elif check_hyphen(letter):
                 letter = '-'
             
             key = letter + str(counter) + '.jpg'
@@ -128,3 +127,22 @@ class LineParser:
         cv2.imshow(window_name, image)
         cv2.waitKey()
         cv2.destroyWindow(window_name)
+
+
+def check_inv(letter):
+    if letter == '‘' or letter == '’' or letter == "'":
+        return True
+    else:
+        return False
+
+def check_dinv(letter):
+    if letter == '“' or letter == '”' or letter == '"':
+        return True
+    else:
+        return False
+
+def check_hyphen(letter):
+    if letter == '-' or letter == '–':
+        return True
+    else:
+        return False

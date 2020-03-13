@@ -14,14 +14,14 @@ cc.verbose = True
 
 @cc.export('check_inv', types.boolean(types.string))
 def check_inv(letter):
-    if letter == '‘' or letter == '’':
+    if letter == '‘' or letter == '’' or letter == "'":
         return True
     else:
         return False
 
 @cc.export('check_dinv', types.boolean(types.string))
 def check_dinv(letter):
-    if letter == '“' or letter == '”':
+    if letter == '“' or letter == '”' or letter == '"':
         return True
     else:
         return False

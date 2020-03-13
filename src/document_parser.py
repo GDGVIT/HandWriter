@@ -29,7 +29,7 @@ def main(args):
     HASHES_PATH = '../hashes.pickle'
     CHARS_PER_LINE = 54
     LINES_PER_PAGE = 30
-    with open(HASHES_PATH, 'rb') as f:
+    with open(HASHES_PAT, 'rb') as f:
         hashes = joblib.load(f)
     document_parser = DocumentParser(hashes, CHARS_PER_LINE, LINES_PER_PAGE)
     document_parser.parse_document(document, args.out_path[0])
