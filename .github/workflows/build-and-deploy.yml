@@ -32,6 +32,11 @@ jobs:
     - name: Build
       run: pyinstaller --onefile --distpath="linux_build" HandWriter.spec
 
+    - name: Export .zip artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: Linux Build
+        path: linux_build
         
   build-windows:
     runs-on: windows-latest
@@ -50,7 +55,13 @@ jobs:
     
     - name: Build
       run: pyinstaller --onefile --windowed --distpath="windows_build" --icon=".\assets\handwriter_logo_small.png" HandWriter.spec
-  
+    
+    - name: Export .zip artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: Windows Build
+        path: windows_build
+        
   build-macos:
     runs-on: [macos-latest]
     
@@ -68,3 +79,9 @@ jobs:
       
     - name: Build
       run: pyinstaller --onefile --windowed --distpath="macos_build" --icon="./assets/handwriter_logo_small.png" HandWriter.spec
+  
+    - name: Export .zip artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: MacOS Build
+        path: macos_build
