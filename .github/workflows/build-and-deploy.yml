@@ -32,6 +32,12 @@ jobs:
     - name: Build
       run: pyinstaller --onefile --distpath="linux_build" HandWriter.spec
 
+    - name: Check build
+      run: |
+        echo "Generated Files:"
+        ls linux_build/HandWriter
+        linux_build/HandWriter/HandWriter
+
     - name: Export .zip artifact
       uses: actions/upload-artifact@v1
       with:
@@ -56,6 +62,11 @@ jobs:
     - name: Build
       run: pyinstaller --onefile --windowed --distpath="windows_build" --icon=".\assets\handwriter_logo_small.png" HandWriter.spec
     
+    - name: Check build
+      run: |
+        dir windows_build\HandWriter
+        windows_build\HandWriter\HandWriter.exe
+    
     - name: Export .zip artifact
       uses: actions/upload-artifact@v1
       with:
@@ -79,6 +90,11 @@ jobs:
       
     - name: Build
       run: pyinstaller --onefile --windowed --distpath="macos_build" --icon="./assets/handwriter_logo_small.png" HandWriter.spec
+  
+    - name: Check build
+      run: |
+        ls macos_build/HandWriter 
+        macos_build/HandWriter/HandWriter
   
     - name: Export .zip artifact
       uses: actions/upload-artifact@v1
