@@ -18,12 +18,18 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    # - uses: actions/checkout@v2
-
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.8'
+   
     # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo Hello, world!
+    - name: Install pyinstaller
+      run: pip install pyinstaller
       
+    - name: Setup packages
+      run:  pip install -r requirements.txt
+        
     - name: Build
       run: pyinstaller --onefile --distpath="linux_build" HandWriter.spec
 
@@ -37,6 +43,12 @@ jobs:
     runs-on: windows-latest
     
     steps:
+      - name: Install pyinstaller
+        run: pip install pyinstaller
+      
+      - name: Setup packages
+        run:  pip install -r requirements.txt
+    
       - name: Build
         run: pyinstaller --onefile --windowed --distpath="windows_build" --icon=".\assets\handwriter_logo_small.png" HandWriter.spec
   
@@ -44,5 +56,16 @@ jobs:
     runs-on: [macos-latest]
     
     steps:
-      - name: Build
-        run: pyinstaller --onefile --windowed --distpath="macos_build" --icon="./assets/handwriter_logo_small.png" HandWriter.spec
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.8'
+
+    - name: Install pyinstaller
+      run: pip install pyinstaller
+      
+    - name: Setup packages
+      run:  pip install -r requirements.txt
+      
+    - name: Build
+      run: pyinstaller --onefile --windowed --distpath="macos_build" --icon="./assets/handwriter_logo_small.png" HandWriter.spec
