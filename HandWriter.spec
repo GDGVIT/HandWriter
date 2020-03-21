@@ -7,9 +7,9 @@ block_cipher = None
 
 
 a = Analysis(['HandWriter.py'],
-             pathex=[path.join('.', 'src'), path.join(".", "env", "lib", "python3.8", "site-packages")],
+             pathex=[path.join('.', 'src')],
              binaries=[],
-             datas=[(path.join(".", "env", "lib", "python3.8", "site-packages","docx","templates"), path.join("docx", "templates"))],
+             datas=[(path.join("docx", "templates"))],
              hiddenimports=['appdirs', 'six','packaging', 'packaging.version', 'packaging.specifiers', 'packaging.requirements'],
              hookspath=[],
              runtime_hooks=[],
