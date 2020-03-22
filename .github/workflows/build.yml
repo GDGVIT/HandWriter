@@ -34,6 +34,7 @@ jobs:
 
     - name: Copy assets
       run: |
+        cp hashes.pickle linux_build/HandWriter
         cp -r assets linux_build/HandWriter
 
     - name: Export .zip artifact
@@ -62,7 +63,8 @@ jobs:
     
     - name: Copy assets
       run: |
-        xcopy assets windows_build\HandWriter
+        copy hashes.pickle windows_build\HandWriter
+        xcopy assets windows_build\HandWriter\assets
     
     - name: Export .zip artifact
       uses: actions/upload-artifact@v1
@@ -90,6 +92,7 @@ jobs:
   
     - name: Copy assets
       run: |
+        cp hashes.pickle macos_build/HandWriter
         cp -r assets macos_build/HandWriter 
   
     - name: Export .zip artifact
