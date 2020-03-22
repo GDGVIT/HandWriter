@@ -63,6 +63,7 @@ jobs:
     
     - name: Copy assets
       run: |
+        mkdir windows_build\HandWriter\assets
         copy hashes.pickle windows_build\HandWriter
         xcopy assets windows_build\HandWriter\assets
     
