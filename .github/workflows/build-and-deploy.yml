@@ -35,7 +35,7 @@ jobs:
     - name: Copy assets and check build
       run: |
         echo "Generated Files:"
-        cp assets linux_build/HandWriter
+        cp -r assets linux_build/HandWriter
         linux_build/HandWriter/HandWriter
 
     - name: Export .zip artifact
@@ -64,7 +64,7 @@ jobs:
     
     - name: Copy assets and check build
       run: |
-        copy assets windows_build\HandWriter
+        xcopy assets windows_build\HandWriter
         windows_build\HandWriter\HandWriter.exe
     
     - name: Export .zip artifact
@@ -93,7 +93,7 @@ jobs:
   
     - name: Copy assets and check build
       run: |
-        cp assets macos_build/HandWriter 
+        cp -r assets macos_build/HandWriter 
         macos_build/HandWriter/HandWriter
   
     - name: Export .zip artifact
