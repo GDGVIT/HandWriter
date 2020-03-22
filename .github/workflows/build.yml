@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Build and Deploy
+name: Build
 
 # Controls when the action will run. Triggers the workflow on push or pull request 
 # events but only for the master branch
@@ -32,11 +32,9 @@ jobs:
     - name: Build
       run: pyinstaller --onefile --distpath="linux_build" HandWriter.spec
 
-    - name: Copy assets and check build
+    - name: Copy assets
       run: |
-        echo "Generated Files:"
         cp -r assets linux_build/HandWriter
-        linux_build/HandWriter/HandWriter
 
     - name: Export .zip artifact
       uses: actions/upload-artifact@v1
@@ -62,10 +60,9 @@ jobs:
     - name: Build
       run: pyinstaller --onefile --windowed --distpath="windows_build" --icon=".\assets\handwriter_logo_small.png" HandWriter.spec
     
-    - name: Copy assets and check build
+    - name: Copy assets
       run: |
         xcopy assets windows_build\HandWriter
-        windows_build\HandWriter\HandWriter.exe
     
     - name: Export .zip artifact
       uses: actions/upload-artifact@v1
@@ -91,10 +88,9 @@ jobs:
     - name: Build
       run: pyinstaller --onefile --windowed --distpath="macos_build" --icon="./assets/handwriter_logo_small.png" HandWriter.spec
   
-    - name: Copy assets and check build
+    - name: Copy assets
       run: |
         cp -r assets macos_build/HandWriter 
-        macos_build/HandWriter/HandWriter
   
     - name: Export .zip artifact
       uses: actions/upload-artifact@v1
