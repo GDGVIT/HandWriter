@@ -1,0 +1,7 @@
+{
+    "app_name": "HandWriter",
+    "author": "SaurusXI",
+    "main_module": "src/main/python/main.py",
+    "version": "1.0.0",
+    "hidden_imports": ["pkg_resources.py2_warn", "six","cv2", "PIL", "PIL.Image"]
+}
