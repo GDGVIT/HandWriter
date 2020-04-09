@@ -1,6 +1,5 @@
 import argparse
 from docx import Document
-import cv2
 import numpy as np
 from line_parser import LineParser
 import re

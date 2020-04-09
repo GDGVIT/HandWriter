@@ -2,5 +2,6 @@
     "categories": "Utility;",
     "description": "",
     "author_email": "",
-    "url": ""
+    "url": "",
+    "hidden_imports": ["setuptools", "setuptools._vendor"]
 }

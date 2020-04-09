@@ -2,6 +2,13 @@
     "app_name": "HandWriter",
     "author": "SaurusXI",
     "main_module": "src/main/python/main.py",
-    "version": "1.0.0",
-    "hidden_imports": ["pkg_resources.py2_warn", "six","cv2", "PIL", "PIL.Image"]
+    "version": "1.0.1",
+    "hidden_imports": [
+        "pkg_resources.py2_warn",
+        "six",
+        "PIL",
+        "PIL.Image"
+    ],
+    "gpg_key": "29D5FDA07C763B56745B9E598AC59FA1ADE43023",
+    "gpg_name": "Shantanu Verma"
 }

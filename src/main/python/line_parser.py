@@ -1,5 +1,5 @@
 import argparse
-import cv2
+# import cv2            Use to debug. In release, no cv2 to reduce size. Use pip install python-opencv
 import random
 import numpy as np
 import re
@@ -124,9 +124,11 @@ class LineParser:
 
 
     def show(self, window_name, image):
-        cv2.imshow(window_name, image)
-        cv2.waitKey()
-        cv2.destroyWindow(window_name)
+        # Used to debug. Uncomment the lines below and install python-opencv
+        # cv2.imshow(window_name, image)
+        # cv2.waitKey()
+        # cv2.destroyWindow(window_name)
+        return
 
 
 def check_inv(letter):
