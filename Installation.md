@@ -1,4 +1,4 @@
-* Fedora -
+### Fedora
 To manage HandWriter with Fedora's (or CentOS') package manager -
 ```bash
 sudo rpm -v --import https://fbs.sh/SaurusXI/HandWriter/public-key.gpg
@@ -17,7 +17,7 @@ sudo yum clean all && sudo yum upgrade handwriter
 Finally, you can also install without automatic updates by downloading:
 https://fbs.sh/SaurusXI/HandWriter/HandWriter.rpm
 
-* Arch - 
+### Arch  
 To manage HandWriter with pacman -
 ```bash
 curl -O https://fbs.sh/SaurusXI/HandWriter/public-key.gpg && sudo pacman-key --add public-key.gpg && sudo pacman-key --lsign-key 29D5FDA07C763B56745B9E598AC59FA1ADE43023 && rm public-key.gpg
@@ -31,7 +31,7 @@ sudo pacman -Syu --needed handwriter
 Finally, you can also install without automatic updates by downloading:
 https://fbs.sh/SaurusXI/HandWriter/HandWriter.pkg.tar.xz
 
-* Debian and its derivatives (Ubuntu etc) -
+### Debian and its derivatives (Ubuntu etc.)
 To manage HandWriter with the package manager -
 ```bash
 wget -qO - https://fbs.sh/<user>/<app>/public-key.gpg | sudo apt-key add -
