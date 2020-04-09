@@ -67,11 +67,16 @@ jobs:
       with:
         python-version: '3.6'
 
-    - name: Setup packages
-      run:  pip install -r requirements.txt
+    - name: Setup environment
+      run:  |
+        pip install -r requirements.txt 
+        brew install expect
+        set -o allexport
+        source version
+        set +o allexport
       
-    - name: Build
-      run: fbs installer
+    - name: Publish
+      run: /usr/bin/expect .github/scripts/mac/publish.sh
   
     - name: Export .zip artifact
       uses: actions/upload-artifact@v1
