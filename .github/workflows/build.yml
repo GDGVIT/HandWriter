@@ -21,28 +21,22 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v1
       with:
-        python-version: '3.8'
+        python-version: '3.6'
  
-    - name: Install pyinstaller
-      run: pip install pyinstaller
-      
     - name: Setup packages
-      run:  pip install -r requirements.txt
-        
-    - name: Build
-      run: pyinstaller --onefile --distpath="linux_build" HandWriter.spec
+      run:  pip install fbs[upload] && apt-get expect
 
-    - name: Copy assets
+    - name: Build containers for arch, deb, fedora
       run: |
-        cp hashes.pickle linux_build/HandWriter
-        cp -r assets linux_build/HandWriter
+        fbs buildvm ubuntu
+        fbs buildvm arch
+        fbs buildvm fedora
 
-    - name: Export .zip artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: Linux Build
-        path: linux_build
-        
+    - name: Publish
+      run: /usr/bin/expect .github/scripts/startup.sh
+
+
+
   build-windows:
     runs-on: windows-latest
     
@@ -50,28 +44,19 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v1
       with:
-        python-version: '3.8'
+        python-version: '3.6'
         
-    - name: Install pyinstaller
-      run: pip install pyinstaller
-      
     - name: Setup packages
       run:  pip install -r requirements.txt
     
     - name: Build
-      run: pyinstaller --onefile --windowed --distpath="windows_build" --icon=".\assets\handwriter_logo_small.png" HandWriter.spec
-    
-    - name: Copy assets
-      run: |
-        mkdir windows_build\HandWriter\assets
-        copy hashes.pickle windows_build\HandWriter
-        xcopy assets windows_build\HandWriter\assets
+      run: fbs installer
     
     - name: Export .zip artifact
       uses: actions/upload-artifact@v1
       with:
-        name: Windows Build
-        path: windows_build
+        name: Windows Installer
+        path: installer_windows
         
   build-macos:
     runs-on: [macos-latest]
@@ -80,21 +65,13 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v1
       with:
-        python-version: '3.8'
+        python-version: '3.6'
 
-    - name: Install pyinstaller
-      run: pip install pyinstaller
-      
     - name: Setup packages
       run:  pip install -r requirements.txt
       
     - name: Build
-      run: pyinstaller --onefile --windowed --distpath="macos_build" --icon="./assets/handwriter_logo_small.png" HandWriter.spec
-  
-    - name: Copy assets
-      run: |
-        cp hashes.pickle macos_build/HandWriter
-        cp -r assets macos_build/HandWriter 
+      run: fbs installer
   
     - name: Export .zip artifact
       uses: actions/upload-artifact@v1
