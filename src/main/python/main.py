@@ -4,7 +4,6 @@ import re
 import subprocess
 import platform
 
-#sys.path.insert(1, os.path.join('.', 'src'))
 from document_parser import DocumentParser
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -13,6 +12,11 @@ from docx.opc.exceptions import PackageNotFoundError
 from fbs_runtime.application_context.PyQt5 import ApplicationContext
 import joblib
 
+def read_stylesheet(path_to_sheet):
+    with open(path_to_sheet, 'r') as f:
+        stylesheet = f.read()
+    return stylesheet
+
 class Ui_MainWindow(QtCore.QObject):
 
     def setupUi(self, MainWindow, AppContext):
@@ -20,82 +24,17 @@ class Ui_MainWindow(QtCore.QObject):
 
         ## Stylesheets
 
-        # 'Select Document' button
-        self.stylesheet_new_select = """
-        QPushButton {
-            color: white; 
-            background-color: #4086F6; 
-            border: 0; 
-            border-radius: 25px;
-        }
-        QPushButton:pressed {
-            color: white;
-            background-color: #3A80F0;
-            border: 0;
-            border-radius: 25px;
-        }
-        """
-        self.stylesheet_selected ="""
-        QPushButton {
-            color: #4086F6; 
-            background-color: #FFFFFF; 
-            border: 2px; 
-            border-color: #4086F6;
-            border-radius: 25px;
-            border-style: solid;
-        }
-        QPushButton:pressed {
-            color: white;
-            background-color: #3A80F0;
-            border: 2px;
-            border-radius: 25px;
-        }
-        """
-        # 'Write' inactive
-        self.stylesheet_write_inactive = """
-        opacity: 0.3; 
-        color: grey; 
-        background-color: #e7e7e7; 
-        border: 0; 
-        border-radius: 25px;
-        """
-        
-        # 'Write' active
-        self.stylesheet_write_active = """
-        QPushButton {
-            color: white; 
-            background-color: #4086F6; 
-            border: 0; 
-            border-radius: 25px;
-        }
-        QPushButton:pressed {
-            color: white;
-            background-color: #3A80F0;
-            border: 0;
-            border-radius: 25px;
-        }
-        """
+        # 'Select Document' button          
+        self.stylesheet_select_unselected = read_stylesheet(AppContext.get_resource('btn_select_unselected.qss'))
+        self.stylesheet_select_selected = read_stylesheet(AppContext.get_resource('btn_select_selected.qss'))
 
-        self.stylesheet_busy_progressbar = """
-        QProgressBar {
-            padding: 3;
-            border: 2;
-        }
+        # 'Write' button
+        self.stylesheet_write_inactive = read_stylesheet(AppContext.get_resource('btn_write_inactive.qss'))
+        self.stylesheet_write_active = read_stylesheet(AppContext.get_resource('btn_write_active.qss'))
 
-        QProgressBar::chunk {
-            background-color: #4086F6;
-        }
-        """
-        
-        self.stylesheet_complete_progressbar = """
-            QProgressBar {
-                padding: 3; 
-                border: 2; 
-            }
-            QProgressBar::chunk {
-                background-color: #109D58;
-            }
-        """
+        # Progressbar
+        self.stylesheet_progressbar_busy = read_stylesheet(AppContext.get_resource('progressbar_busy.qss'))
+        self.stylesheet_progressbar_finshed = read_stylesheet(AppContext.get_resource('progressbar_finished.qss'))
 
         ## Fonts
 
@@ -152,7 +91,7 @@ class Ui_MainWindow(QtCore.QObject):
         # Select Document Button
 
         self.btn_select_document = QtWidgets.QPushButton('Select Document', self.centralwidget)
-        self.btn_select_document.setStyleSheet(self.stylesheet_new_select)
+        self.btn_select_document.setStyleSheet(self.stylesheet_select_unselected)
         self.btn_select_document.setEnabled(True)
         self.btn_select_document.setFixedSize(200, 50)
         self.btn_select_document.setFont(font_select)
@@ -172,7 +111,7 @@ class Ui_MainWindow(QtCore.QObject):
         # Progress Bar
 
         self.progress = QtWidgets.QProgressBar(self.MainWindow)
-        self.progress.setStyleSheet(self.stylesheet_busy_progressbar)
+        self.progress.setStyleSheet(self.stylesheet_progressbar_busy)
         self.progress.setGeometry(0, 590, 800, 10)
 
         self.retranslateUi()
@@ -206,7 +145,7 @@ class Ui_MainWindow(QtCore.QObject):
     # Parse document on a thread separate from main UI thread
     def parse_document(self):
         self.progress.setRange(0, 0)
-        self.progress.setStyleSheet(self.stylesheet_busy_progressbar)
+        self.progress.setStyleSheet(self.stylesheet_progressbar_busy)
         self.start_parsing()
     # Uncomment to help with debugging:
 #        if self.thread.isRunning():
@@ -225,7 +164,7 @@ class Ui_MainWindow(QtCore.QObject):
 #        if self.thread.isFinished():
 #            print("Thread terminated")
         self.progress.setRange(0, 1)
-        self.progress.setStyleSheet(self.stylesheet_complete_progressbar)
+        self.progress.setStyleSheet(self.stylesheet_progressbar_finshed)
         self.progress.setTextVisible(False)
         self.progress.setValue(1)
         self.unselect_btn_select()
@@ -275,11 +214,11 @@ class Ui_MainWindow(QtCore.QObject):
         self.btn_write.setFont(self.font_asleep)
 
     def unselect_btn_select(self):
-        self.btn_select_document.setStyleSheet(self.stylesheet_new_select)
+        self.btn_select_document.setStyleSheet(self.stylesheet_select_unselected)
         self.btn_select_document.setText("Select Document")
 
     def selected_btn_select(self):
-        self.btn_select_document.setStyleSheet(self.stylesheet_selected)
+        self.btn_select_document.setStyleSheet(self.stylesheet_select_selected)
         document_name = re.search('[^/]*$', self.doc_path).group()
         self.btn_select_document.setText(document_name)
 
