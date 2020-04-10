@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Generating Handwriting - HandWriter Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Generating Handwriting";
+    var mkdocs_page_input_path = "generating_hashes.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> HandWriter Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../architecture/">Architecture</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Generating Handwriting</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#generating-handwriting">Generating Handwriting</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#data-gathering-and-serialization">Data Gathering and Serialization</a></li>
+        
+            <li><a class="toctree-l3" href="#adding-a-new-handwriting">Adding a new handwriting</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">HandWriter Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Generating Handwriting</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="generating-handwriting">Generating Handwriting</h1>
+<p>Presently, the basis for generating handwriting in HandWriter is restrictively static and it is highly desirable that future releases generalize this procedure by automating the extraction of letter images of a person's handwriting (perhaps with the use of machine learning). <br>
+This section elucidates the steps that were taken to manually feed a handwriting sample to the application, to guide the automation of these steps in the future. </p>
+<h2 id="data-gathering-and-serialization">Data Gathering and Serialization</h2>
+<p>A sample of handwriting was obtained with constraints imposed -</p>
+<ul>
+<li>Multiple instances of each letter and symbol were written in a fixed grid. </li>
+<li>Each cell within a grid was divided into 3 parts vertically in the ratio of 1:1:2, and letters were written accordingly. This can be seen in the difference between the letters ‘a’, 'd’, and ‘y’. 
+<img alt="a" src="../img/a5.jpg" />
+<img alt="d" src="../img/d5.jpg" />
+<img alt="y" src="../img/y5.jpg" /></li>
+<li>Letters were extracted from the grid using opencv, and the data was processed and cleaned.</li>
+<li>Finally the matrix representation of each image was stored in a hashtable that maps an instance of a character to its image. Each letter has five instances (such as 'a1.jpg' .. 'a5.jpg'). The key of hashtable is like 'a1.jpg' (that is, the name of the image file), and its value is the 8-bit integer matrix representation of the corresponding image. There is only one whitespace stored as 'whitespace.jpg'. Symbols are stored like '(1.jpg', '(2.jpg' .. '(5.jpg'</li>
+<li>Inverted and double inverted commas are stored as 'inv1.jpg' .. 'inv5.jpg' and 'dinv1.jpg' to 'dinv5.jpg' respectively. Further there is some special consideration given in <code>LineParser</code> when these symbols are converted, because there are actually 3 characters each that can represent these symbols. </li>
+<li>This hashtable was serialized with pickle and exported as ‘hashes.pickle’</li>
+</ul>
+<h2 id="adding-a-new-handwriting">Adding a new handwriting</h2>
+<p>Due to the architecture of handwriter, changing or adding a new handwriting is simply a matter of changing the underlying hashes.pickle with images of the new handwriting. Store this new pickled hashtable file in <code>src/main/resources</code> and change the hashes path variable in <code>ParserThread object</code> in <code>main.py</code>. It is important that the new hashes file has keys formatted exactly as outlined above, as the <code>LineParser</code> class expects this. </p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../architecture/" class="btn btn-neutral" title="Architecture"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../architecture/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>
