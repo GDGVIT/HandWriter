@@ -117,9 +117,13 @@ This section elucidates the steps that were taken to manually feed a handwriting
 <ul>
 <li>Multiple instances of each letter and symbol were written in a fixed grid. </li>
 <li>Each cell within a grid was divided into 3 parts vertically in the ratio of 1:1:2, and letters were written accordingly. This can be seen in the difference between the letters ‘a’, 'd’, and ‘y’. 
+<br>
 <img alt="a" src="../img/a5.jpg" />
+<br>
 <img alt="d" src="../img/d5.jpg" />
-<img alt="y" src="../img/y5.jpg" /></li>
+<br>
+<img alt="y" src="../img/y5.jpg" />
+<br></li>
 <li>Letters were extracted from the grid using opencv, and the data was processed and cleaned.</li>
 <li>Finally the matrix representation of each image was stored in a hashtable that maps an instance of a character to its image. Each letter has five instances (such as 'a1.jpg' .. 'a5.jpg'). The key of hashtable is like 'a1.jpg' (that is, the name of the image file), and its value is the 8-bit integer matrix representation of the corresponding image. There is only one whitespace stored as 'whitespace.jpg'. Symbols are stored like '(1.jpg', '(2.jpg' .. '(5.jpg'</li>
 <li>Inverted and double inverted commas are stored as 'inv1.jpg' .. 'inv5.jpg' and 'dinv1.jpg' to 'dinv5.jpg' respectively. Further there is some special consideration given in <code>LineParser</code> when these symbols are converted, because there are actually 3 characters each that can represent these symbols. </li>
