@@ -1,2 +1,1 @@
-- [ ] Write documentation (describe usage) + wiki (describe structure)
-- [ ] Installers/Distribution environments for popular desktop platforms (windows, linux, mac)
+- [ ] Installers for Mac and Windows. Suggested to use a Github actions pipeline and run fbs release on different platforms.
