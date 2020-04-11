@@ -5,8 +5,7 @@
 </p>
 
 ---
-[![DOCS](https://img.shields.io/badge/Documentation-see%20docs-green?style=flat-square&logo=appveyor)](INSERT_LINK_FOR_DOCS_HERE) 
-  [![UI ](https://img.shields.io/badge/User%20Interface-Link%20to%20UI-orange?style=flat-square&logo=appveyor)](INSERT_UI_LINK_HERE)
+[![DOCS](https://img.shields.io/badge/Documentation-see%20docs-green?style=flat-square&logo=appveyor)](https://gdgvit.github.io/HandWriter/)
 
 Currently,  *version 1* of the project is complete.
 *Version 2* will implement the second functionality listed below. 
@@ -18,14 +17,16 @@ Currently,  *version 1* of the project is complete.
 - [X] Convert a text document (.docx file) into a PDF file with the text content handwritten
 - [ ] Feed your own handwriting to the application to generate PDF outputs in your handwriting
 
-## Instructions to run
 
-* Pre-requisites:
-	-  python >= 3.0
-	-  dependencies from requirements.txt
+## Installation
+* To install the binary onto your system, follow instructions from Installation.md
+* To install the source for contributing -
+	- Pre-requisites:
+		-  python 3.5 or 3.6
+		-  dependencies from requirements.txt
 <br>
 
-### Directions to install
+### Directions to setup development environment
 First, clone this repository onto your system. <br>
 Then, create a virtual environment and install the packages from requirements.txt: <br>
 Navigate to this repository, create a virtual environment and activate it:
@@ -37,20 +38,6 @@ source env/bin/activate
 Install the python dependencies from requirements.txt:
 ```bash
 pip install -r requirements.txt
-```
-Finally, download the data file from [ here ](https://drive.google.com/open?id=1yaS8zwzgr8BtzUcgWfP_PqG1JljnTsbe)<br> 
-Copy **hashes.pickle** to install directory. <br>
-
-### Directions to run
-The application has a CLI that takes path to document and output PDF path as arguments. For instance,
-```bash
-cd src
-python document_parser.py /path/to/docx /path/to/pdf
-```
-
-Or, use the GUI:
-```bash
-python HandWriter.py
 ```
 
 <br><br>

@@ -1,0 +1,5 @@
+{
+    "mac_bundle_identifier": "com.gdgvit.handwriter",
+    "installer": "${app_name}.dmg",
+    "show_console_window": false
+}

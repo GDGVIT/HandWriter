@@ -1,0 +1,8 @@
+QProgressBar {
+    padding: 3;
+    border: 2;
+}
+
+QProgressBar::chunk {
+    background-color: #4086F6;
+}

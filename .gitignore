@@ -1,7 +1,6 @@
 temp.py
 data_cleaned
 temp2.py
-hashes.pickle
 README2.md
 .~lock.test.docx#
 __pycache__/
@@ -20,3 +19,4 @@ HandwritingParser_temp.py
 Untitled\ 1.docx
 Untitled\ 1.pdf
 Out.pdf
+target
