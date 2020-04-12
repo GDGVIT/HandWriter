@@ -32,12 +32,18 @@ Finally, you can also install without automatic updates by downloading:
 https://fbs.sh/SaurusXI/HandWriter/HandWriter.pkg.tar.xz
 
 ### Debian and its derivatives (Ubuntu etc.)
-To manage HandWriter with the package manager -
+To manage HandWriter with your package manager -
 ```bash
-wget -qO - https://fbs.sh/<user>/<app>/public-key.gpg | sudo apt-key add -
-echo 'deb [arch=amd64] https://fbs.sh/SaurusXI/HandWriter/deb stable main' | sudo tee /etc/apt/sources.list.d/HandWriter.list
+sudo apt-get install apt-transport-https
+wget -qO - https://fbs.sh/SaurusXI/HandWriter/public-key.gpg | sudo apt-key add -
+echo 'deb [arch=amd64] https://fbs.sh/SaurusXI/HandWriter/deb stable main' | sudo tee /etc/apt/sources.list.d/handwriter.list
 sudo apt-get update
 sudo apt-get install handwriter
 ```
-You can also install without automatic updates by downloading:
-https://fbs.sh/SaurusXI/HandWriter/HandWriter.deb
+If HandWriter is already installed, you can force an immediate update via:
+```bash
+sudo apt-get update -o Dir::Etc::sourcelist="/etc/apt/sources.list.d/handwriter.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
+sudo apt-get install --only-upgrade handwriter
+```
+Finally, you can also install without automatic updates by downloading:
+    https://fbs.sh/SaurusXI/HandWriter/HandWriter.deb
