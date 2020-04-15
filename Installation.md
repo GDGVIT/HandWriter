@@ -52,7 +52,7 @@ sudo apt-get install --only-upgrade handwriter
 *Why the symlink?* <br>
 For maximum portability, the debian package was built in an Ubuntu 16.04 environment. However, this leads to a known [issue](https://ubuntuforums.org/showthread.php?t=2375927) with systems based on Ubuntu 17.10 or newer. <br><br>
 Finally, you can also install without automatic updates by downloading:
-    https://fbs.sh/SaurusXI/HandWriter/HandWriter.deb
+    https://fbs.sh/SaurusXI/HandWriter/HandWriter.deb <br>
 After downloading the package, remember to create the symlink - 
 ```bash
 sudo mv /opt/HandWriter/libz.so.1 /opt/HandWriter/libz.so.1.old
