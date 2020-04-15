@@ -39,11 +39,24 @@ wget -qO - https://fbs.sh/SaurusXI/HandWriter/public-key.gpg | sudo apt-key add 
 echo 'deb [arch=amd64] https://fbs.sh/SaurusXI/HandWriter/deb stable main' | sudo tee /etc/apt/sources.list.d/handwriter.list
 sudo apt-get update
 sudo apt-get install handwriter
-```
+sudo mv /opt/HandWriter/libz.so.1 /opt/HandWriter/libz.so.1.old
+cd /opt/HandWriter/
+sudo ln -s /lib/x86_64-linux-gnu/libz.so.1
+cd
+``` 
 If HandWriter is already installed, you can force an immediate update via:
 ```bash
 sudo apt-get update -o Dir::Etc::sourcelist="/etc/apt/sources.list.d/handwriter.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
 sudo apt-get install --only-upgrade handwriter
 ```
+*Why the symlink?* <br>
+For maximum portability, the debian package was built in an Ubuntu 16.04 environment. However, this leads to a known [issue](https://ubuntuforums.org/showthread.php?t=2375927) with systems based on Ubuntu 17.10 or newer. <br><br>
 Finally, you can also install without automatic updates by downloading:
     https://fbs.sh/SaurusXI/HandWriter/HandWriter.deb
+After downloading the package, remember to create the symlink - 
+```bash
+sudo mv /opt/HandWriter/libz.so.1 /opt/HandWriter/libz.so.1.old
+cd /opt/HandWriter/
+sudo ln -s /lib/x86_64-linux-gnu/libz.so.1
+cd
+```
