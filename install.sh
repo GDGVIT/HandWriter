@@ -36,7 +36,7 @@ then
     echo "Installing the HandWriter package"
     sudo rpm -v --import https://fbs.sh/SaurusXI/HandWriter/public-key.gpg
     sudo dnf config-manager --add-repo https://fbs.sh/SaurusXI/HandWriter/rpm/HandWriter.repo
-    sudo dnf install handwriter
+    yes | sudo dnf install handwriter
     
     echo "Installing fonts"
     wget $FONTS_FILE -O ~/roboto.zip
@@ -56,7 +56,7 @@ then
     echo "Installing the HandWriter package"
     sudo rpm -v --import https://fbs.sh/SaurusXI/HandWriter/public-key.gpg
     sudo yum-config-manager --add-repo https://fbs.sh/SaurusXI/HandWriter/rpm/HandWriter.repo
-    sudo yum install handwriter
+    yes | sudo yum install handwriter
     
     echo "Installing fonts"
     wget $FONTS_FILE -O ~/roboto.zip
@@ -79,7 +79,7 @@ then
     
     echo 'deb [arch=amd64] https://fbs.sh/SaurusXI/HandWriter/deb stable main' | sudo tee /etc/apt/sources.list.d/handwriter.list
     sudo apt-get update
-    sudo apt-get install handwriter
+    yes | sudo apt-get install handwriter
     
     echo "Creating symlink"
     sudo mv /opt/HandWriter/libz.so.1 /opt/HandWriter/libz.so.1.old
