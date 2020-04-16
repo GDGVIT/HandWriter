@@ -1,3 +1,18 @@
+# Installing HandWriter
+An installation script has been provided that takes care of everything for you. Alternatively, you can install HandWriter manually as explained below. <br>
+
+## Installing using the install script
+```bash
+curl https://github.com/GDGVIT/HandWriter/raw/master/install.sh -o ~/handwriter-installer.sh -L
+chmod a+x ~/handwriter-installer.sh
+~/handwriter-installer.sh
+```
+You can remove the script once you're done
+```bash
+rm ~/handwriter-installer.sh
+```
+## Installing manually
+
 ### Fedora
 To manage HandWriter with Fedora's (or CentOS') package manager -
 ```bash
@@ -9,6 +24,14 @@ sudo dnf install handwriter
 If HandWriter is already installed, you can force an immediate update via:
 ```bash
 sudo dnf upgrade handwriter --refresh
+```
+Install fonts
+```bash
+curl $FONTS_FILE -o ~/roboto.zip -L
+unzip ~/roboto.zip -d ~/roboto-font
+mkdir ~/.local/share/fonts
+cp ~/roboto-font/* ~/.local/share/fonts/
+rm ~/roboto.zip && rm -r ~/roboto-font
 ```
 This is for Fedora. For CentOS, use:
 ```bash
@@ -23,6 +46,14 @@ To manage HandWriter with pacman -
 curl -O https://fbs.sh/SaurusXI/HandWriter/public-key.gpg && sudo pacman-key --add public-key.gpg && sudo pacman-key --lsign-key 29D5FDA07C763B56745B9E598AC59FA1ADE43023 && rm public-key.gpg
 echo -e '\n[HandWriter]\nServer = https://fbs.sh/SaurusXI/HandWriter/arch' | sudo tee -a /etc/pacman.conf
 sudo pacman -Syu handwriter
+```
+Install fonts
+```bash
+curl $FONTS_FILE -o ~/roboto.zip -L
+unzip ~/roboto.zip -d ~/roboto-font
+mkdir ~/.local/share/fonts
+cp ~/roboto-font/* ~/.local/share/fonts/
+rm ~/roboto.zip && rm -r ~/roboto-font
 ```
 If HandWriter is already installed, you can force an immediate update via:
 ```bash
@@ -44,6 +75,14 @@ cd /opt/HandWriter/
 sudo ln -s /lib/x86_64-linux-gnu/libz.so.1
 cd
 ``` 
+Install fonts
+```bash
+curl $FONTS_FILE -o ~/roboto.zip -L
+unzip ~/roboto.zip -d ~/roboto-font
+mkdir ~/.local/share/fonts
+cp ~/roboto-font/* ~/.local/share/fonts/
+rm ~/roboto.zip && rm -r ~/roboto-font
+```
 If HandWriter is already installed, you can force an immediate update via:
 ```bash
 sudo apt-get update -o Dir::Etc::sourcelist="/etc/apt/sources.list.d/handwriter.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
