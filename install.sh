@@ -8,7 +8,7 @@ else
     OS=$ID_LIKE
 fi
 
-FONTS_FILE=https://github.com/SaurusXI/HandwritingParser/raw/master/assets/roboto.zip
+FONTS_FILE=https://github.com/GDGVIT/HandWriter/raw/master/assets/roboto.zip
 
 if [ "$OS" = "arch" ]
 then
