@@ -30,12 +30,8 @@ jobs:
       - name: Release
         run: /usr/bin/expect .github/scripts/mac/release.sh
 
-      - name: Check release
-        run: |
-          ls HandWriter
-
       - name: Export .zip artifact
         uses: actions/upload-artifact@v1
         with:
           name: macOS dmg
-          path: HandWriter
+          path: ../HandwritingParser
