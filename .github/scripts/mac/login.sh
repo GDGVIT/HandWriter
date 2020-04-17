@@ -3,6 +3,6 @@
 set timeout -1
 spawn fbs login
 expect "Username:"
-send -- "$env(FBS_USER)"
+send_user "$env(FBS_USER)\r"
 expect "Password:"
-send -- "$env(FBS_PASS)"
+send_user "$env(FBS_PASS)\r"

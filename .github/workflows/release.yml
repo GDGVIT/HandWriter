@@ -13,11 +13,7 @@ jobs:
     - uses: actions/setup-python@v1
       with:
         python-version: '3.6'
-      env:
-        FBS_USER: ${{ secrets.FBS_USER }}
-        FBS_PASS: ${{ secrets.FBS_PASS }}
-        GPG_PASS: ${{ secrets.GPG_PASS }}
-
+      
     - name: Setup release environment
       run: |
         pip install -r requirements.txt
@@ -26,6 +22,10 @@ jobs:
         
     - name: Login
       run: /usr/bin/expect .github/scripts/mac/login.sh
+      env:
+        FBS_USER: ${{ secrets.FBS_USER }}
+        FBS_PASS: ${{ secrets.FBS_PASS }}
+        GPG_PASS: ${{ secrets.GPG_PASS }}
 
     - name: Release
       run: yes $VERSION | fbs release
