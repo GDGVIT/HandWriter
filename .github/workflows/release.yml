@@ -18,7 +18,6 @@ jobs:
         run: |
           pip install -r requirements.txt
           brew install expect
-          . version
 
       - name: Login
         run: /usr/bin/expect .github/scripts/mac/login.sh
@@ -26,9 +25,11 @@ jobs:
           FBS_USER: ${{ secrets.FBS_USER }}
           FBS_PASS: ${{ secrets.FBS_PASS }}
           GPG_PASS: ${{ secrets.GPG_PASS }}
-          
+
       - name: Release
-        run: yes $VERSION | fbs release
+        run: |
+          . version
+          yes $VERSION | fbs release
 
       - name: Check release
         run: |
