@@ -29,7 +29,7 @@ jobs:
       - name: Release
         run: |
           . version
-          yes $VERSION | fbs release
+          /usr/bin/expect .github/scripts/mac/release.sh
 
       - name: Check release
         run: |
