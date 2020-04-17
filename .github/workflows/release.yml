@@ -32,11 +32,10 @@ jobs:
 
       - name: Check release
         run: |
-          ls
-          ls target
+          ls HandWriter
 
       - name: Export .zip artifact
         uses: actions/upload-artifact@v1
         with:
           name: macOS dmg
-          path: macos
+          path: HandWriter
