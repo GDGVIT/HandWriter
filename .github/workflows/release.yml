@@ -28,7 +28,7 @@ jobs:
 
       - name: Release
         run: |
-          . version
+          echo "::set-env name=VERSION::$(cat version)"
           /usr/bin/expect .github/scripts/mac/release.sh
 
       - name: Check release
