@@ -3,4 +3,5 @@
 set timeout -1
 spawn fbs release
 expect "Release version*"
-send -- "$env(VERSION)"
+send -- "$env(VERSION)\r"
+expect eof
