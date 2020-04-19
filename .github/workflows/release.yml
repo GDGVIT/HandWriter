@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
         with:
-          python-version: '3.6'
+          python-version: "3.6"
 
       - name: Setup release environment
         run: |
@@ -20,7 +20,7 @@ jobs:
           brew install expect
           echo "::set-env name=VERSION::$(cat version)"
 
-      - name: Login
+      - name: Login to FBS
         run: /usr/bin/expect .github/scripts/mac/login.sh
         env:
           FBS_USER: ${{ secrets.FBS_USER }}
@@ -30,8 +30,34 @@ jobs:
       - name: Release
         run: /usr/bin/expect .github/scripts/mac/release.sh
 
-      - name: Export .zip artifact
+      - name: Export setup dmg as .zip artifact
         uses: actions/upload-artifact@v1
         with:
           name: macOS dmg
           path: target/HandWriter.dmg
+
+  Windows-release:
+    runs-on: [windows-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.6"
+
+      - name: Setup release environment
+        run: |
+          pip install pywin32
+          pip install -r requirements.txt
+          echo "::set-env name=VERSION::$(type version)"
+    
+      - name: Release
+        run: |
+          python .\.github\scripts\windows\release.py
+
+      - name: Export installer as .zip artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Windows Installer
+          path: target/HandWriterSetup.exe
+
