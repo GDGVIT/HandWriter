@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    branches: [actions]
+    branches: [master]
 
 jobs:
   macOS-release:
