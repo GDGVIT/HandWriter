@@ -1,5 +1,5 @@
 {
-    "mac_bundle_identifier": "com.gdgvit.handwriter",
+    "mac_bundle_identifier": "com.dsc-vit.handwriter",
     "installer": "${app_name}.dmg",
     "show_console_window": false
 }
