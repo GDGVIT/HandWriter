@@ -78,11 +78,11 @@ then
     wget -qO - https://fbs.sh/SaurusXI/HandWriter/public-key.gpg | sudo apt-key add -
     
     echo 'deb [arch=amd64] https://fbs.sh/SaurusXI/HandWriter/deb stable main' | sudo tee /etc/apt/sources.list.d/handwriter.list
+    sudo dpkg-divert --local --divert /opt/HandWriter/libz.so.1.old --rename /opt/HandWriter/libz.so.1
     sudo apt-get update
     yes | sudo apt-get install handwriter
     
     echo "Creating symlink"
-    sudo mv /opt/HandWriter/libz.so.1 /opt/HandWriter/libz.so.1.old
     cd /opt/HandWriter/
     sudo ln -s /lib/x86_64-linux-gnu/libz.so.1
     cd
