@@ -1,8 +1,8 @@
 {
     "app_name": "HandWriter",
-    "author": "SaurusXI",
+    "author": "DSC-VIT",
     "main_module": "src/main/python/main.py",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "hidden_imports": [
         "pkg_resources.py2_warn",
         "six",
