@@ -8,6 +8,5 @@
         "six",
         "PIL",
         "PIL.Image"
-    ],
-    "gpg_name": "Shantanu Verma"
+    ]
 }
