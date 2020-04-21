@@ -50,7 +50,7 @@ The original dataset can be downloaded from [ here ](https://drive.google.com/fi
 ## Contributors
 
 * [ Shantanu Verma ](https://github.com/SaurusXI/)
-* [ Nirmit Jatana ](https://github.com/nirmitjatana) - help with GUI design
+* [ Nirmit Jatana ](https://github.com/nirmitjatana) (GUI DESIGNS)
 
 <br>
 <br>
