@@ -13,9 +13,9 @@ FONTS_FILE=https://github.com/GDGVIT/HandWriter/raw/master/assets/roboto.zip
 if [ "$OS" = "arch" ]
 then
     echo "Installing the HandWriter package"
-    curl -O https://fbs.sh/SaurusXI/HandWriter/public-key.gpg && sudo pacman-key --add public-key.gpg && sudo pacman-key --lsign-key 29D5FDA07C763B56745B9E598AC59FA1ADE43023 && rm public-key.gpg
+    curl -O https://fbs.sh/DSC-VIT/HandWriter/public-key.gpg && sudo pacman-key --add public-key.gpg && sudo pacman-key --lsign-key 29D5FDA07C763B56745B9E598AC59FA1ADE43023 && rm public-key.gpg
     
-    echo -e '\n[HandWriter]\nServer = https://fbs.sh/SaurusXI/HandWriter/arch' | sudo tee -a /etc/pacman.conf
+    echo -e '\n[HandWriter]\nServer = https://fbs.sh/DSC-VIT/HandWriter/arch' | sudo tee -a /etc/pacman.conf
     sudo pacman -Syu handwriter
     
     echo "Installing fonts"
@@ -34,8 +34,8 @@ then
 elif [ "$OS" = "fedora" ]
 then
     echo "Installing the HandWriter package"
-    sudo rpm -v --import https://fbs.sh/SaurusXI/HandWriter/public-key.gpg
-    sudo dnf config-manager --add-repo https://fbs.sh/SaurusXI/HandWriter/rpm/HandWriter.repo
+    sudo rpm -v --import https://fbs.sh/DSC-VIT/HandWriter/public-key.gpg
+    sudo dnf config-manager --add-repo https://fbs.sh/DSC-VIT/HandWriter/rpm/HandWriter.repo
     yes | sudo dnf install handwriter
     
     echo "Installing fonts"
@@ -54,8 +54,8 @@ then
 elif [ "$OS" = "rhel fedora" ]
 then
     echo "Installing the HandWriter package"
-    sudo rpm -v --import https://fbs.sh/SaurusXI/HandWriter/public-key.gpg
-    sudo yum-config-manager --add-repo https://fbs.sh/SaurusXI/HandWriter/rpm/HandWriter.repo
+    sudo rpm -v --import https://fbs.sh/DSC-VIT/HandWriter/public-key.gpg
+    sudo yum-config-manager --add-repo https://fbs.sh/DSC-VIT/HandWriter/rpm/HandWriter.repo
     yes | sudo yum install handwriter
     
     echo "Installing fonts"
@@ -75,9 +75,9 @@ elif [ "$OS" = "debian" ]
 then
     echo "Installing the HandWriter package"
     sudo apt-get install apt-transport-https
-    wget -qO - https://fbs.sh/SaurusXI/HandWriter/public-key.gpg | sudo apt-key add -
+    wget -qO - https://fbs.sh/DSC-VIT/HandWriter/public-key.gpg | sudo apt-key add -
     
-    echo 'deb [arch=amd64] https://fbs.sh/SaurusXI/HandWriter/deb stable main' | sudo tee /etc/apt/sources.list.d/handwriter.list
+    echo 'deb [arch=amd64] https://fbs.sh/DSC-VIT/HandWriter/deb stable main' | sudo tee /etc/apt/sources.list.d/handwriter.list
     sudo dpkg-divert --local --divert /opt/HandWriter/libz.so.1.old --rename /opt/HandWriter/libz.so.1
     sudo apt-get update
     yes | sudo apt-get install handwriter
