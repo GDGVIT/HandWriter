@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    branches: [ master ]
+    branches: [actions]
 
 jobs:
   macOS-release:
@@ -61,3 +61,95 @@ jobs:
           name: Windows Installer
           path: target/HandWriterSetup.exe
 
+  Debian-release:
+    runs-on: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.6"
+
+      - name: Setup release environment
+        run:  | 
+          sudo apt-get install expect
+          pip install fbs
+          echo "::set-env name=VERSION::$(cat version)"
+          # Login with appropriate credentials
+          /usr/bin/expect .github/scripts/linux-base/login.sh 
+        env:
+          FBS_USER: ${{ secrets.FBS_USER }}
+          FBS_PASS: ${{ secrets.FBS_PASS }}
+          GPG_PASS: ${{ secrets.GPG_PASS }}
+          EMAIL: ${{ secrets.EMAIL }}
+          NAME: ${{ secrets.NAME }}
+
+      - name: Build VM
+        run: fbs buildvm ubuntu
+
+      - name: Release
+        run: |
+          chmod a+x .github/scripts/ubuntu/release.sh
+          .github/scripts/ubuntu/release.sh
+
+  Arch-Release:
+    runs-on: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.6"
+
+      - name: Setup release environment
+        run:  | 
+          sudo apt-get install expect
+          pip install fbs
+          echo "::set-env name=VERSION::$(cat version)"
+          # Login with appropriate credentials
+          /usr/bin/expect .github/scripts/linux-base/login.sh 
+        env:
+          FBS_USER: ${{ secrets.FBS_USER }}
+          FBS_PASS: ${{ secrets.FBS_PASS }}
+          GPG_PASS: ${{ secrets.GPG_PASS }}
+          EMAIL: ${{ secrets.EMAIL }}
+          NAME: ${{ secrets.NAME }}
+
+      - name: Build VM
+        run: fbs buildvm arch
+
+      - name: Release
+        run: |
+          chmod a+x .github/scripts/arch/release.sh
+          .github/scripts/arch/release.sh
+
+  Fedora-Release:
+    runs-on: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.6"
+
+      - name: Setup release environment
+        run:  | 
+          sudo apt-get install expect
+          pip install fbs
+          echo "::set-env name=VERSION::$(cat version)"
+          # Login with appropriate credentials
+          /usr/bin/expect .github/scripts/linux-base/login.sh 
+        env:
+          FBS_USER: ${{ secrets.FBS_USER }}
+          FBS_PASS: ${{ secrets.FBS_PASS }}
+          GPG_PASS: ${{ secrets.GPG_PASS }}
+          EMAIL: ${{ secrets.EMAIL }}
+          NAME: ${{ secrets.NAME }}
+
+      - name: Build VM
+        run: fbs buildvm fedora
+
+      - name: Release
+        run: |
+          chmod a+x .github/scripts/fedora/release.sh
+          .github/scripts/fedora/release.sh
