@@ -13,8 +13,8 @@ FONTS_FILE=https://github.com/GDGVIT/HandWriter/raw/master/assets/roboto.zip
 if [ "$OS" = "arch" ]
 then
     echo "Installing the HandWriter package"
-    curl -O https://fbs.sh/DSC-VIT/HandWriter/public-key.gpg && sudo pacman-key --add public-key.gpg && sudo pacman-key --lsign-key 29D5FDA07C763B56745B9E598AC59FA1ADE43023 && rm public-key.gpg
-    
+    curl -O https://fbs.sh/DSC-VIT/HandWriter/public-key.gpg && sudo pacman-key --add public-key.gpg && sudo pacman-key --lsign-key B3462FDA0DF0DB4C20B79E73CADD865FF9A9F9BA && rm public-key.gpg
+
     echo -e '\n[HandWriter]\nServer = https://fbs.sh/DSC-VIT/HandWriter/arch' | sudo tee -a /etc/pacman.conf
     sudo pacman -Syu handwriter
     
