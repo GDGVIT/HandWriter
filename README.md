@@ -19,7 +19,10 @@ Currently,  *version 1* of the project is complete.
 
 
 ## Installation
-* To install the binary onto your system, follow instructions from Installation.md
+
+Instructions for installation can be found here - <br>
+[Install page](https://handwriter.dscvit.com/installer/home/)
+
 * To install the source for contributing -
 	- Pre-requisites:
 		-  python 3.5 or 3.6
