@@ -2,7 +2,8 @@ name: Release
 
 on:
   push:
-    branches: [master]
+    branches: [actions]
+    tags: '*'
 
 jobs:
   macOS-release:
@@ -27,14 +28,17 @@ jobs:
           FBS_PASS: ${{ secrets.FBS_PASS }}
           GPG_PASS: ${{ secrets.GPG_PASS }}
 
-      - name: Release
+      - name: Build Installer
         run: /usr/bin/expect .github/scripts/mac/release.sh
 
-      - name: Export setup dmg as .zip artifact
-        uses: actions/upload-artifact@v1
+      - name: Release
+        uses: ncipollo/release-action@v1
         with:
-          name: macOS dmg
-          path: target/HandWriter.dmg
+          artifacts: target/HandWriter.dmg 
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          tag: $VERSION
+          commit: actions
 
   Windows-release:
     runs-on: [windows-latest]
@@ -51,15 +55,18 @@ jobs:
           pip install -r requirements.txt
           echo "::set-env name=VERSION::$(type version)"
     
-      - name: Release
+      - name: Build Installer
         run: |
           python .\.github\scripts\windows\release.py
 
-      - name: Export installer as .zip artifact
-        uses: actions/upload-artifact@v1
+      - name: Release
+        uses: ncipollo/release-action@v1
         with:
-          name: Windows Installer
-          path: target/HandWriterSetup.exe
+          artifacts: target/HandWriter.dmg 
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          tag: $Env:VERSION
+          commit: actions
 
   Debian-release:
     runs-on: [ubuntu-latest]
