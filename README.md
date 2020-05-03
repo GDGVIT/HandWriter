@@ -20,8 +20,8 @@ Currently,  *version 1* of the project is complete.
 
 ## Installation
 
-Instructions for installation can be found here - <br>
-[Install page](https://handwriter.dscvit.com/installer/home/)
+Instructions for installation can be on the DSC-VIT website for the project - <br>
+#### https://handwriter.dscvit.com/installer/home/
 
 * To install the source for contributing -
 	- Pre-requisites:
