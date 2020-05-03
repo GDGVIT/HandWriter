@@ -71,7 +71,7 @@ then
     cd /usr/local/bin
     sudo ln -s /opt/HandWriter/HandWriter
 
-elif [ "$OS" = "debian" ]
+elif [ "$OS" = "debian" ] || [ "$OS" = "ubuntu" ] || [ "$OS" = "ubuntu debian" ]
 then
     echo "Installing the HandWriter package"
     sudo apt-get install apt-transport-https
