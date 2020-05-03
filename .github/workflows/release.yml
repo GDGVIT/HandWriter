@@ -37,7 +37,7 @@ jobs:
           artifacts: target/HandWriter.dmg 
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true
-          tag: $VERSION
+          tag: ${{ env.VERSION }}
           commit: actions
 
   Windows-release:
@@ -65,7 +65,7 @@ jobs:
           artifacts: target/HandWriter.dmg 
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true
-          tag: $Env:VERSION
+          tag: ${{ env.VERSION }}
           commit: actions
 
   Debian-release:
