@@ -196,6 +196,7 @@ jobs:
           
       - name: Push changes to website repo
         run: |
+          cd HandWriter-webpage
           git add content/installer/
           git commit -m "Automated website build for upstream package update"
           git push --force
