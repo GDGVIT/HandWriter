@@ -2,7 +2,9 @@ name: Release
 
 on:
   push:
-    branches: [actions]
+    branches: [master]
+    tags:
+      - '*'
 
 jobs:
   macOS-release:
@@ -184,19 +186,19 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true
           tag: ${{ env.VERSION }}
-          commit: actions 
+          commit: master 
           artifacts: "macOS dmg, Windows Installer"
 
       - name: Modify website pages
         run: |
           # Cloning the website repo
-          git clone git@github.com:SaurusXI/HandWriter-webpage.git
-          cd HandWriter-webpage
+          git clone git@github.com:GDGVIT/handwriter-website.git
+          cd handwriter-website
           sed 's/{VERSION}/'"${{ env.VERSION }}"'/' templates/home.md > content/installer/home.md
           
       - name: Push changes to website repo
         run: |
-          cd HandWriter-webpage
+          cd handwriter-website
           git add content/installer/
           git commit -m "Automated website build for upstream package update"
           git push --force
