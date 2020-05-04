@@ -185,7 +185,7 @@ jobs:
           allowUpdates: true
           tag: ${{ env.VERSION }}
           commit: actions 
-          artifacts: [macOS dmg, Windows Installer]
+          artifacts: "macOS dmg, Windows Installer"
 
       - name: Modify website pages
         run: |
