@@ -3,6 +3,8 @@ name: Release
 on:
   push:
     branches: [master]
+    tags:
+      - '*'
 
 jobs:
   macOS-release:
@@ -14,7 +16,7 @@ jobs:
         with:
           python-version: "3.6"
 
-      - name: Setup release environment
+      - name: Setup build environment
         run: |
           pip install -r requirements.txt
           brew install expect
@@ -27,7 +29,7 @@ jobs:
           FBS_PASS: ${{ secrets.FBS_PASS }}
           GPG_PASS: ${{ secrets.GPG_PASS }}
 
-      - name: Release
+      - name: Build Installer
         run: /usr/bin/expect .github/scripts/mac/release.sh
 
       - name: Export setup dmg as .zip artifact
@@ -45,7 +47,7 @@ jobs:
         with:
           python-version: "3.6"
 
-      - name: Setup release environment
+      - name: Setup build environment
         run: |
           pip install pywin32
           pip install -r requirements.txt
@@ -153,3 +155,50 @@ jobs:
         run: |
           chmod a+x .github/scripts/fedora/release.sh
           .github/scripts/fedora/release.sh
+
+  Publish:
+    runs-on: [ubuntu-latest]
+    needs: [macOS-release, Windows-release]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: webfactory/ssh-agent@v0.2.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: macOS dmg
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: Windows Installer
+
+      - name: Setup release environment
+        run: |
+          echo "::set-env name=VERSION::$(cat version)"
+          git config --global user.name ${{ secrets.GIT_USER }}
+          git config --global user.email ${{ secrets.GIT_EMAIL }}
+          
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          tag: ${{ env.VERSION }}
+          commit: master 
+          artifacts: "macOS dmg, Windows Installer"
+
+      - name: Modify website pages
+        run: |
+          # Cloning the website repo
+          git clone git@github.com:GDGVIT/handwriter-website.git
+          cd handwriter-website
+          sed 's/{VERSION}/'"${{ env.VERSION }}"'/' templates/home.md > content/installer/home.md
+          
+      - name: Push changes to website repo
+        run: |
+          cd handwriter-website
+          git add content/installer/
+          git commit -m "Automated website build for upstream package update"
+          git push --force
