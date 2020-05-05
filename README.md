@@ -23,13 +23,13 @@ Currently,  *version 1* of the project is complete.
 Instructions for installation can be on the DSC-VIT website for the project - <br>
 #### https://handwriter.dscvit.com/installer/home/
 
+
+### Directions to setup development environment
 * To install the source for contributing -
 	- Pre-requisites:
 		-  python 3.5 or 3.6
 		-  dependencies from requirements.txt
 <br>
-
-### Directions to setup development environment
 First, clone this repository onto your system. <br>
 Then, create a virtual environment and install the packages from requirements.txt: <br>
 Navigate to this repository, create a virtual environment and activate it:
