@@ -200,5 +200,5 @@ jobs:
         run: |
           cd handwriter-website
           git add content/installer/
-          git commit -m "Automated website build for upstream package update"
+          git commit --allow-empty -m "Automated website build for upstream package update"
           git push --force
