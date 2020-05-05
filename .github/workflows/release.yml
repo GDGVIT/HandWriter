@@ -74,7 +74,7 @@ jobs:
         
       - name: Set repo ID
         run: |
-          echo "::set-env name=REPO::SaurusXI/HandwritingParser"
+          echo "::set-env name=REPO::GDGVIT/HandWriter"
 
       - name: Setup release environment
         if: github.repository == ${{ env.REPO }}
@@ -112,7 +112,7 @@ jobs:
 
       - name: Set repo ID
         run: |
-          echo "::set-env name=REPO::'SaurusXI/HandwritingParser'"
+          echo "::set-env name=REPO::GDGVIT/HandWriter"
 
       - name: Setup release environment
         if: github.repository == ${{ env.REPO }}
@@ -150,7 +150,7 @@ jobs:
 
       - name: Set repo ID
         run: |
-          echo "::set-env name=REPO::SaurusXI/HandwritingParser"      
+          echo "::set-env name=REPO::GDGVIT/HandWriter"      
 
       - name: Setup release environment
         if: github.repository == ${{ env.REPO }}
