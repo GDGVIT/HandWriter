@@ -71,8 +71,13 @@ jobs:
       - uses: actions/setup-python@v1
         with:
           python-version: "3.6"
+        
+      - name: Set repo ID
+        run: |
+          echo "::set-env name=REPO::SaurusXI/HandwritingParser"
 
       - name: Setup release environment
+        if: github.repository == ${{ env.REPO }}
         run:  | 
           sudo apt-get install expect
           pip install fbs
@@ -87,9 +92,11 @@ jobs:
           NAME: ${{ secrets.NAME }}
 
       - name: Build VM
+        if: github.repository == ${{ env.REPO }}
         run: fbs buildvm ubuntu
 
       - name: Release
+        if: github.repository == ${{ env.REPO }}
         run: |
           chmod a+x .github/scripts/ubuntu/release.sh
           .github/scripts/ubuntu/release.sh
@@ -103,7 +110,12 @@ jobs:
         with:
           python-version: "3.6"
 
+      - name: Set repo ID
+        run: |
+          echo "::set-env name=REPO::'SaurusXI/HandwritingParser'"
+
       - name: Setup release environment
+        if: github.repository == ${{ env.REPO }}
         run:  | 
           sudo apt-get install expect
           pip install fbs
@@ -118,9 +130,11 @@ jobs:
           NAME: ${{ secrets.NAME }}
 
       - name: Build VM
+        if: github.repository == ${{ env.REPO }}
         run: fbs buildvm arch
 
       - name: Release
+        if: github.repository == ${{ env.REPO }}
         run: |
           chmod a+x .github/scripts/arch/release.sh
           .github/scripts/arch/release.sh
@@ -134,7 +148,12 @@ jobs:
         with:
           python-version: "3.6"
 
+      - name: Set repo ID
+        run: |
+          echo "::set-env name=REPO::SaurusXI/HandwritingParser"      
+
       - name: Setup release environment
+        if: github.repository == ${{ env.REPO }}
         run:  | 
           sudo apt-get install expect
           pip install fbs
@@ -149,9 +168,11 @@ jobs:
           NAME: ${{ secrets.NAME }}
 
       - name: Build VM
+        if: github.repository == ${{ env.REPO }}
         run: fbs buildvm fedora
 
       - name: Release
+        if: github.repository == ${{ env.REPO }}
         run: |
           chmod a+x .github/scripts/fedora/release.sh
           .github/scripts/fedora/release.sh
@@ -174,6 +195,10 @@ jobs:
         with:
           name: Windows Installer
 
+      - name: Set repo ID
+        run: |
+          echo "::set-env name=REPO::'GDGVIT/HandWriter'"
+
       - name: Setup release environment
         run: |
           echo "::set-env name=VERSION::$(cat version)"
@@ -190,6 +215,7 @@ jobs:
           artifacts: "macOS dmg, Windows Installer"
 
       - name: Modify website pages
+        if: github.repository == ${{ env.REPO }}
         run: |
           # Cloning the website repo
           git clone git@github.com:GDGVIT/handwriter-website.git
@@ -197,6 +223,7 @@ jobs:
           sed 's/{VERSION}/'"${{ env.VERSION }}"'/' templates/home.md > content/installer/home.md
           
       - name: Push changes to website repo
+        if: github.repository == ${{ env.REPO }}
         run: |
           cd handwriter-website
           git add content/installer/
