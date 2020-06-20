@@ -18,13 +18,13 @@ Currently,  *version 1* of the project is complete.
 - [ ] Feed your own handwriting to the application to generate PDF outputs in your handwriting
 
 
-## Installation
+## Install the GUI Package
 
-Instructions for installation can be on the DSC-VIT website for the project - <br>
+Instructions for installation can be found on the DSC-VIT website for the project - <br>
 #### https://handwriter.dscvit.com/installer/home/
 
-
-### Directions to setup development environment
+## Directions to setup development environment
+### Setup dependencies
 * To install the source for contributing -
 	- Pre-requisites:
 		-  python 3.5 or 3.6
@@ -33,6 +33,7 @@ Instructions for installation can be on the DSC-VIT website for the project - <b
 First, clone this repository onto your system. <br>
 Then, create a virtual environment and install the packages from requirements.txt: <br>
 Navigate to this repository, create a virtual environment and activate it:
+
 ```bash
 cd path/to/folder
 python -m venv env
@@ -41,6 +42,12 @@ source env/bin/activate
 Install the python dependencies from requirements.txt:
 ```bash
 pip install -r requirements.txt
+```
+
+### Directions to run
+From anywhere in the project directory, run the following command in the terminal -
+```bash
+fbs run
 ```
 
 <br><br>
