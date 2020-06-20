@@ -17,6 +17,10 @@ Currently,  *version 1* of the project is complete.
 - [X] Convert a text document (.docx file) into a PDF file with the text content handwritten
 - [ ] Feed your own handwriting to the application to generate PDF outputs in your handwriting
 
+For instance, this text document gets converted to the following handwritten output -
+Text Document              |  Handwritten output
+:-------------------------:|:-------------------------:
+![Text](https://shantanu-verma-portfolio.netlify.app/document_image.jpeg)  |  ![Handwritten](https://shantanu-verma-portfolio.netlify.app/hw_0.jpeg)
 
 ## Install the GUI Package
 
@@ -32,7 +36,7 @@ Instructions for installation can be found on the DSC-VIT website for the projec
 <br>
 First, clone this repository onto your system. <br>
 Then, create a virtual environment and install the packages from requirements.txt: <br>
-Navigate to this repository, create a virtual environment and activate it:
+Navigate to this repository, create a virtual environment and activate it: <br>
 
 ```bash
 cd path/to/folder
