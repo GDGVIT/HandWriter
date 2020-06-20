@@ -5,7 +5,7 @@
 </p>
 
 ---
-[![DOCS](https://img.shields.io/badge/Documentation-see%20docs-green?style=flat-square&logo=appveyor)](https://gdgvit.github.io/HandWriter/)
+[![DOCS](https://img.shields.io/badge/Documentation-see%20docs-green?style=flat-square&logo=appveyor)](https://saurusxi.github.io/HandwritingParser/)
 
 Currently,  *version 1* of the project is complete.
 *Version 2* will implement the second functionality listed below. 
