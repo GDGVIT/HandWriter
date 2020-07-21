@@ -19,7 +19,7 @@ PyQt5-sip==12.7.1
 python-dateutil==2.8.1
 python-docx==0.8.10
 pytz==2019.3
-sip==4.19.8
+sip==5.3.0
 six==1.14.0
 typed-ast==1.4.1
 wrapt==1.11.2
