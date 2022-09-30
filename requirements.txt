@@ -3,7 +3,7 @@ astroid==2.3.3
 fbs==0.8.6
 future==0.18.2
 isort==4.3.21
-joblib==0.14.1
+joblib==1.2.0
 lazy-object-proxy==1.4.3
 llvmlite==0.31.0
 lxml==4.6.2
